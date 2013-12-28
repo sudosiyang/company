@@ -29,8 +29,8 @@
 				<img src="images/photo.jpg" alt="">
 				<span><a href="">请您登录或注册</a></span>
 			</div>
-			<div class="task row">
-				<ul>
+			<div class="task row" id="List">
+				<ul id="J_widgetList">
 					<li></li>
 					<li></li>
 					<li></li>
@@ -47,6 +47,7 @@
 		$('.panel').panel('toggle', 'push', 'left');
 		return false;
 	});
+	new iScroll('List');
 	</script>
 </body>
 </html>
