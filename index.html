@@ -86,7 +86,7 @@
 	$(function ($) {
 		$('#J_toolbar').toolbar({});
         //初始化panel，panel是iscroll
-        $('.panel').iScroll()
+        $('.panel').iScroll({"hScroll":false})
             .panel({
             contentWrap: $('.cont'),
             scrollMode: 'fix',
@@ -96,8 +96,29 @@
         $('.menu').on('click', function(event) {
 			$('.panel').panel('toggle','push');
 			return false;
-		});
-        
+		});:<!DOCTYPE HTML>
+		<html lang="en">
+		<head>
+		  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		  <title></title>
+		  <link rel="stylesheet" href="qunit.css" type="text/css" media="screen">
+		  <script src="http://code.jquery.com/jquery-latest.js"></script>
+		  <script src="qunit.js"></script>
+		  <script src="myscript.js"></script>
+		  <script src="test.js"></script>
+			
+		</head>
+		<body>
+		  <h1 id="qunit-header"></h1>
+		  <h2 id="qunit-banner"></h2>
+		  <div id="qunit-testrunner-toolbar"></div>
+		  <h2 id="qunit-userAgent"></h2>
+		  <ol id="qunit-tests"></ol>
+		  <div id="qunit-fixture">
+			  <!-- my test markup goes here -->
+		  </div>
+		</body>
+		</html>
     }(Zepto));
 	</script>
 </body>
