@@ -27,22 +27,23 @@
 				</span>
 			</div>
 			<div class="task row" id="List">
-				<div class='list-item'>
+				<div>
 					<h3>任务</h3>
 					<ul>
 						<li><a href="">正在进行</a></li>
 						<li><a href="">已完成</a></li>
 						<li><a href="">未完成</a></li>
 					</ul>
-					<h3>部门</h3>
-					<ul>
+					<h3>工具</h3>
+					<!--<ul>
 						<li><a href="">前端UED</a></li>
 						<li><a href="">数据PHP</a></li>
 						<li><a href="">核心AS-C++</a></li>
 						<li><a href="">运营销售</a></li>
 					</ul>
-					<h3>便捷工具</h3>
+					<h3>工具</h3>-->
 					<ul>
+						<li><a href="">部门</a></li>
 						<li><a href="">榜单</a></li>
 						<li><a href="">聊天</a></li>
 						<li><a href="">同事</a></li>
@@ -60,9 +61,7 @@
 		$('.panel').panel('toggle', 'push', 'left');
 		return false;
 	});
-	setTimeout(function(){new iScroll('List');},200 );
-
-	
+	$('#List').iScroll();
 	</script>
 </body>
 </html>
