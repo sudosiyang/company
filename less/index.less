@@ -40,6 +40,10 @@ a{
 .login{
 	background: #252525;
 	padding: 10px;
+	position: fixed;
+	margin-top: 0;
+	top: 0;
+	z-index: 999;
 	img{
 		width: 3em;
 		float: left;
@@ -59,6 +63,7 @@ a{
 	}
 }
 .task{
+	padding-top: 68px;
 	li{
 		border-top:1px solid #434343;
 		border-bottom: 1px solid #262626;
@@ -66,7 +71,7 @@ a{
 		line-height: 3em;
 		padding-left: 1em;
 		a{
-	
+			display: block;
 		}
 	}
 	h3{
@@ -75,4 +80,14 @@ a{
 		padding-left: 1em;
 		font-size: 0.85em;
 	}
+}
+.icon-bar {
+	display: block;
+	width: 20px;
+	height: 2px;
+	border-radius: 1px;
+	background: #000;
+}
+.icon-bar + .icon-bar {
+	margin-top: 4px;
 }

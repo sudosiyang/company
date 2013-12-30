@@ -13,55 +13,92 @@
 	<div id="page">
 		<div class="cont">
 			<div id="J_toolbar">
-				<a href="../" class="btn_1 menu">菜单</a>
+				<a href="../" class="btn_1 menu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
 				<h2 id="btn1">我的任务</h2>
 				<a href="../" class="btn_1">新建</a>
 			</div>
 		</div>
-		<div class="content"></div>
 		<div class="panel">
-			<div class="login row clearfix">
-				<img src="images/photo.jpg" alt="">
-				<span>
-					<a href="">请您登录或注册</a>
-				</span>
-			</div>
 			<div class="task row" id="List">
-				<div>
 					<h3>任务</h3>
 					<ul>
-						<li><a href="">正在进行</a></li>
-						<li><a href="">已完成</a></li>
-						<li><a href="">未完成</a></li>
+						<li>
+							<a href="">正在进行</a>
+						</li>
+						<li>
+							<a href="">已完成</a>
+						</li>
+						<li>
+							<a href="">未完成</a>
+						</li>
 					</ul>
-					<h3>工具</h3>
+					<h3>统计</h3>
 					<!--<ul>
-						<li><a href="">前端UED</a></li>
-						<li><a href="">数据PHP</a></li>
-						<li><a href="">核心AS-C++</a></li>
-						<li><a href="">运营销售</a></li>
-					</ul>
-					<h3>工具</h3>-->
-					<ul>
-						<li><a href="">部门</a></li>
-						<li><a href="">榜单</a></li>
-						<li><a href="">聊天</a></li>
-						<li><a href="">同事</a></li>
-					</ul>
-				</div>
-			</div>
+					<li>
+						<a href="">前端UED</a>
+					</li>
+					<li>
+						<a href="">数据PHP</a>
+					</li>
+					<li>
+						<a href="">核心AS-C++</a>
+					</li>
+					<li>
+						<a href="">运营销售</a>
+					</li>
+				</ul>
+				<h3>工具</h3>
+				-->
+				<ul>
+					<li>
+						<a href="">部门</a>
+					</li>
+					<li>
+						<a href="">榜单</a>
+					</li>
+					<li>
+						<a href="">同事</a>
+					</li>
+				</ul>
+				<h3>统计</h3>
+				<ul>
+					<li>
+						<a href="">反馈</a>
+					</li>
+					<li>
+						<a href="">关于</a>
+					</li>
+				</ul>
+		</div>
+		<div class="login row clearfix">
+			<img src="images/photo.jpg" alt="">
+			<span>
+				<a href="">请您登录或注册</a>
+			</span>
 		</div>
 	</div>
-	<script type="text/javascript">
-	$('#J_toolbar').toolbar({});
-	$('.panel').panel({
-    	contentWrap: $('.cont')
-	});
-	$('.menu').on('click', function(event) {
-		$('.panel').panel('toggle', 'push', 'left');
-		return false;
-	});
-	$('#List').iScroll();
+</div>
+<script type="text/javascript">
+	$(function ($) {
+		$('#J_toolbar').toolbar({});
+        //初始化panel，panel是iscroll
+        $('.panel').iScroll()
+            .panel({
+            contentWrap: $('.cont'),
+            scrollMode: 'fix',
+            swipeClose: false,
+            position:'left'
+        });
+        $('.menu').on('click', function(event) {
+			$('.panel').panel('toggle','push');
+			return false;
+		});
+        
+    }(Zepto));
 	</script>
 </body>
 </html>

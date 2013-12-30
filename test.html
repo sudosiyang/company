@@ -10,41 +10,87 @@
 	<title>TODOS</title>
 </head>
 <body>
-			<div class="task row" id="List">
-				<div>
-					<h3>任务</h3>
-					<ul>
-						<li><a href="">正在进行</a></li>
-						<li><a href="">已完成</a></li>
-						<li><a href="">未完成</a></li>
-					</ul>
-					<h3>部门</h3>
-					<ul>
-						<li><a href="">前端UED</a></li>
-						<li><a href="">数据PHP</a></li>
-						<li><a href="">核心AS-C++</a></li>
-						<li><a href="">运营销售</a></li>
-					</ul>
-					<h3>便捷工具</h3>
-					<ul>
-						<li><a href="">榜单</a></li>
-						<li><a href="">聊天</a></li>
-						<li><a href="">同事</a></li>
-					</ul>
+	<div id="page">
+		<div class="cont">
+		</div>
+		<div class="panel">
+			<div class="task row">
+				<div class="login row clearfix">
+					<img src="images/photo.jpg" alt="">
+					<span>
+						<a href="">请您登录或注册</a>
+					</span>
 				</div>
-			</div>
-	<script type="text/javascript">
-	$('#J_toolbar').toolbar({});
-	$('.panel').panel({
-    	contentWrap: $('.cont')
-	});
-	$('.menu').on('click', function(event) {
-		$('.panel').panel('toggle', 'push', 'left');
-		return false;
-	});
-	setTimeout(function(){new iScroll('List');},200 );
+				<h3>任务</h3>
+				<ul>
+					<li>
+						<a href="">正在进行</a>
+					</li>
+					<li>
+						<a href="">已完成</a>
+					</li>
+					<li>
+						<a href="">未完成</a>
+					</li>
+				</ul>
+				<h3>统计</h3>
+				<!--<ul>
+				<li>
+					<a href="">前端UED</a>
+				</li>
+				<li>
+					<a href="">数据PHP</a>
+				</li>
+				<li>
+					<a href="">核心AS-C++</a>
+				</li>
+				<li>
+					<a href="">运营销售</a>
+				</li>
+			</ul>
+			<h3>工具</h3>
+			-->
+			<ul>
+				<li>
+					<a href="">部门</a>
+				</li>
+				<li>
+					<a href="">榜单</a>
+				</li>
+				<li>
+					<a href="">同事</a>
+				</li>
+			</ul>
+			<h3>统计</h3>
+			<ul>
+				<li>
+					<a href="">反馈</a>
+				</li>
+				<li>
+					<a href="">关于</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $(function ($) {
 
-	
-	</script>
+        //初始化panel，panel是iscroll
+        $('.panel').css({
+            'height': window.innerHeight,
+            'padding-top': 0,
+            'padding-bottom': 0
+        }).iScroll()
+            .panel({
+            contentWrap: $('.cont'),
+            scrollMode: 'fix',
+            swipeClose: false,
+            position:'left'
+        });
+
+        $('.panel').panel('toggle','push');
+    }(Zepto));
+</script>
 </body>
 </html>
