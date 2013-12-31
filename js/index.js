@@ -1,5 +1,5 @@
 $(function($) {
-    $('#J_toolbar').toolbar({});
+    $('.tool-bar').toolbar({});
     //初始化page
     var mainSection = $("#Content1").show();
     var demoSection = $("#Content2");
@@ -64,7 +64,7 @@ $(function($) {
     var updatePage = function() {
         var widgetName = location.hash.replace('#', '');
 
-        if (widgetName === '' || !demos[widgetName]) {
+        if (widgetName === '' || !SecondPage[widgetName]) {
             mainSection.css('-webkit-transform', 'translateX(0)');
             demoSection.css('-webkit-transform', 'translateX(100%)');
         } else {
