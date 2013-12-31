@@ -28,6 +28,9 @@ form{width:250px;margin:0 auto;margin-bottom:-10px}form input{height:35px;paddin
 form ._login{background:#1398f5 -webkit-gradient(linear, left top, left bottom, from(#82b2e8), to(#5e8cc5));border:1px solid #79a9e0;color:#fff}
 form .links{margin-bottom:-10px}form .links a{color:#000;font-size:.9em}
 form .links .forgive{float:right}
+._about{text-align:center}._about h1{font-size:1.2em;margin:15px 0}
+._about p{margin:10px 0}
+._about .small{font-size:.8em}
 @-webkit-keyframes loading-frames{0%{transform:rotate(0deg);-webkit-transform:rotate(0deg)} 100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.loading-wrapper{position:absolute;z-index:10005;top:0;left:0;bottom:0;right:0;background:#fff}
 .loading-wrapper *{-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .loading-wrapper .loading-container{position:absolute;width:124px;height:86px;margin:0 -62px;left:50%;top:75px}

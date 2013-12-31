@@ -1,4 +1,5 @@
 $(function($) {
+    var version="v1.1.5";
     $('#J_toolbar').toolbar({});
     //初始化page
     var mainSection = $("#Content1").show();
@@ -42,17 +43,23 @@ $(function($) {
     //登陆
     var login_in = gmu.Dialog({
         autoOpen: false,
-        closeBtn: false,
-        buttons: {
-            '取消': function() {
-                this.close();
-            }
-        },
+        closeBtn: true,
         title: '登录',
         content: '<form action=""><input type="text" placeholder="请输入账号"><input type="password" placeholder="请输入密码"><input type="submit" value="登 录" class="_login"><div class="links"><a href="#" class="register">注册账号</a><a href="#" class="forgive">忘记密码</a></div></form>'
     });
     $("#login").click(function(event) {
         login_in.open();
+        return false;
+    });
+    //反馈
+    var about=gmu.Dialog({
+        autoOpen:false,
+        closeBtn: true,
+        title: '关于',
+        content:'<div class="_about"><h1>特特区执行力系统</h1><p>版本号：'+version+'</p><p class="small">Copyright © 1998-2013 TETEQU.</p></div>'
+    });
+    $(".about").click(function(event) {
+        about.open();
         return false;
     });
 
