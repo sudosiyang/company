@@ -10,17 +10,17 @@
 	<title>TODOS</title>
 </head>
 <body>
-	<div id="page">
-		<div class="cont">
-			<div id="J_toolbar">
-				<a href="../" class="btn_1 menu">
-				</a>
-				<h2 id="btn1">我的任务</h2>
-				<a href="../" class="btn_1 new"></a>
+	<section id="Content1" class="__page__">
+		<div id="page">
+			<div class="cont">
+				<div id="J_toolbar" class="tool-bar">
+					<a href="#" class="btn_1 menu"></a>
+					<h2 id="btn1">我的任务</h2>
+					<a href="#" class="btn_1 new"></a>
+				</div>
 			</div>
-		</div>
-		<div class="panel">
-			<div class="task row" id="List">
+			<div class="panel">
+				<div class="task row" id="List">
 					<h3>任务</h3>
 					<ul>
 						<li>
@@ -34,51 +34,62 @@
 						</li>
 					</ul>
 					<h3>统计</h3>
-					<!--<ul>
-					<li>
-						<a href="">前端UED</a>
-					</li>
-					<li>
-						<a href="">数据PHP</a>
-					</li>
-					<li>
-						<a href="">核心AS-C++</a>
-					</li>
-					<li>
-						<a href="">运营销售</a>
-					</li>
-				</ul>
-				<h3>工具</h3>
-				-->
-				<ul>
-					<li>
-						<a href="">部门</a>
-					</li>
-					<li>
-						<a href="">榜单</a>
-					</li>
-					<li>
-						<a href="">同事</a>
-					</li>
-				</ul>
-				<h3>统计</h3>
-				<ul>
-					<li>
-						<a href=""><span class="tell"></span>反馈</a>
-					</li>
-					<li>
-						<a href=""><span class="about"></span>关于</a>
-					</li>
-				</ul>
+					<ul>
+						<li>
+							<a href=""><span class="department"></span>部门</a>
+						</li>
+						<li>
+							<a href=""><span class="rank"></span>榜单</a>
+						</li>
+						<li>
+							<a href=""><span class="collage"></span>同事</a>
+						</li>
+					</ul>
+					<h3>统计</h3>
+					<ul>
+						<li>
+							<a href="">
+								<span class="tell"></span>
+								反馈
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<span class="about"></span>
+								关于
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="login row clearfix">
+					<img src="images/photo.jpg" alt="">
+					<span>
+						<a href="" id="login">请您登录或注册</a>
+					</span>
+				</div>
+			</div>
 		</div>
-		<div class="login row clearfix">
-			<img src="images/photo.jpg" alt="">
-			<span>
-				<a href="" id="login">请您登录或注册</a>
-			</span>
+	</section>
+	<section id="Content2" class="__page__">
+		<div id="page">
+			<div class="cont">
+				<div id="J_toolbar" class="tool-bar">
+					<a href="#" class="btn_1 return-back">返回</a>
+					<h2 id="btn1">创建任务</h2>
+					<a href="createTask" class="btn_1 send"></a>
+				</div>
+				<div class="loading-wrapper" style="top: 89px; height: 1098px;">
+					<div class="loading-container">
+						<div class="loading-icon">
+							<div class="loading-round"></div>
+							<div class="loading-inner"></div>
+						</div>
+						<span class="loading-text">加载中,请稍后...</span>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
-<script type="text/javascript" src="js/index.js"></script>
+	</section>
+	<script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>
