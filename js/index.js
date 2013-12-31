@@ -1,13 +1,19 @@
 $(function($) {
-    $('.tool-bar').toolbar({});
+    $('#J_toolbar').toolbar({});
     //初始化page
     var mainSection = $("#Content1").show();
     var demoSection = $("#Content2");
     $("#Content2").css('-webkit-transform', 'translateX(100%)');
     $('.__page__').css('-webkit-transition', 'all .3s ease-in-out');
     //
-    $('.new').click(function(e) {
+    $('.ui-toolbar-wrap a').click(function(e) {
         var widgetName = $(this).attr('href');
+        location.hash = widgetName;
+        e.preventDefault();
+    });
+    $('.panel a').click(function(e) {
+        var widgetName = $(this).attr('href');
+        $('.panel').panel('toggle');
         location.hash = widgetName;
         e.preventDefault();
     });
@@ -56,14 +62,18 @@ $(function($) {
     $(window).on('scrollStop ortchange resize', resetHeight);
     //渲染数据
     var updateDemoSection = function(widget){
-        
+        $("#J_toolbar2").empty();
+        new gmu.Toolbar("#J_toolbar2",{
+            title: SecondPage[widget].title,
+            leftBtns: ['<a href="#" class="btn_1 return-back">返回</a>'],
+            rightBtns: [SecondPage[widget]['right-btn']]
+        });
     }
 
 
     //更新页面
     var updatePage = function() {
         var widgetName = location.hash.replace('#', '');
-
         if (widgetName === '' || !SecondPage[widgetName]) {
             mainSection.css('-webkit-transform', 'translateX(0)');
             demoSection.css('-webkit-transform', 'translateX(100%)');

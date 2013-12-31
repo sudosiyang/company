@@ -17,7 +17,7 @@ a{text-decoration:none;color:#fff}
 .task h3{height:2.5em;line-height:2.5em;padding-left:1em;font-size:.85em}
 .icon-bar{display:block;width:20px;height:2px;border-radius:1px;background:#000}
 .icon-bar+.icon-bar{margin-top:4px}
-.ui-toolbar-wrap{background:#5d7ca7 -webkit-gradient(linear, 0 0, 0 100%, from(#5d7ca7), to(#3e5374));border-bottom:1px solid #283e5f}.ui-toolbar-wrap h2{color:#fff}
+.ui-toolbar-wrap{background:#5d7ca7 -webkit-gradient(linear, 0 0, 0 100%, from(#5d7ca7), to(#3e5374));border-bottom:1px solid #283e5f}.ui-toolbar-wrap h1{color:#fff}
 .ui-toolbar-wrap a{border:none;margin:0;padding:0;color:#fff}
 .ui-toolbar-wrap .menu{background:url(../images/6.png) no-repeat;margin-left:.5em;width:40px;height:44px;margin-top:5px;-webkit-background-size:25px auto;background-size:27px auto}
 .ui-toolbar-wrap .new{width:40px;height:44px;margin-top:-5px;background:url(../images/icon.png) no-repeat;background-position:12px -662px;-webkit-background-size:25px auto;background-size:25px auto}
