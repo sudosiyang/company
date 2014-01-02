@@ -6,7 +6,7 @@ var SecondPage = {
 	},
 	"department":{
 		"title": "部门",
-		"templ": "",
+		"templ": "function",
 		"right-btn":""
 	},
 	"collage":{
