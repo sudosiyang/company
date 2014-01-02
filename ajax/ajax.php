@@ -5,10 +5,11 @@
 			$sql = "select * from t_user where phonenum='$name'";
 			$this->execute ( $sql );
 			$result = $this->fetchArray ();
+			$userinfo=$this->userinfo($result ['id']);
 			if (! $result)
 				return array('result'=>false,'name' => false );
 			if ($result ['u_pwd'] == $pwd) {
-				return array('result'=>true,'name' => $this->userinfo($result ['id'])['u_name'],'photo'=> $this->userinfo($result ['id'])['u_photo']);
+				return array('result'=>true,'name' => $userinfo['u_name'],'photo'=> $userinfo['u_photo']);
 			} else{
 				return array('result'=>false,'pwd' => false );
 			}
