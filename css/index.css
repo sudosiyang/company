@@ -1,5 +1,5 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video,input{margin:0;padding:0;border:none;outline:0;font-size:100%;font:inherit;vertical-align:baseline}
-html,body,.cont{height:100%;font-family:"微软雅黑";overflow-x:hidden}
+html,body,.cont{height:100%;font-family:"微软雅黑";overflow:hidden}
 a{text-decoration:none;color:#fff}
 ol,ul{list-style:none}
 .clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}
@@ -36,13 +36,22 @@ form .links .forgive{float:right}
 ._about{text-align:center}._about h1{font-size:1.2em;margin:15px 0}
 ._about p{margin:10px 0}
 ._about .small{font-size:.8em}
+.ui-icon-delete{background-position:-72px 50%}
+.ui-icon{-webkit-background-size:776px 18px;background-size:776px 18px;width:18px;height:18px;display:inline-block}
 .ui-tabs-nav li{position:relative;background:#2a2a2a;border:0}.ui-tabs-nav li.ui-state-active{background-color:#2a2a2a;border:0}.ui-tabs-nav li.ui-state-active a:after{content:"";display:block;position:absolute;bottom:0;left:10px;right:10px;height:4px;background:#3bc30b}
 .ui-tabs-nav li a{color:#fff}.ui-tabs-nav li a:before{content:"";display:block;position:absolute;top:13px;right:0;width:0;height:13px;overflow:hidden;border-right:solid 1px #4a4a4a}
 .ui-tabs-content{height:100% !important;border:0;-webkit-transition:height 2ms ease-in-out}.ui-tabs-content .ui-tabs-panel{padding:0}
-.scroller li{position:relative;height:55px;border-bottom:solid 1px #ccc}
-.scroller span{margin-left:55px;display:inline-block}
-.scroller img{position:absolute;width:40px;height:40px;top:5px;border-radius:50%;border:1px solid #ccc}
-.scroller a{line-height:55px;padding-left:1em;color:#333;text-decoration:none;display:block;-webkit-background-size:45px 14px}
+.ui-refresh li,.scroller li{position:relative;height:55px;border-bottom:solid 1px #ccc}
+.ui-refresh span,.scroller span{margin-left:55px;display:inline-block}
+.ui-refresh img,.scroller img{position:absolute;width:40px;height:40px;top:5px;border-radius:50%;border:1px solid #ccc}
+.ui-refresh a,.scroller a{line-height:55px;padding-left:1em;color:#333;text-decoration:none;display:block;-webkit-background-size:45px 14px}
+.ui-refresh li span{display:block;line-height:35px}
+.ui-refresh li span+span{line-height:11px;font-size:.7em;color:#b2b2b2}
+.ui-refresh .ui-refresh-up span{margin:0}
+.ui-refresh .ui-refresh-up .ui-refresh-icon,.ui-refresh .ui-refresh-down .ui-refresh-icon{display:inline-block;width:25px;height:25px;vertical-align:middle;background:url('r-flip.png') no-repeat;-webkit-background-size:25px 25px;-webkit-transition-property:-webkit-transform;-webkit-transition-duration:400ms;-webkit-transition-timing-function:ease-in-out}
+.ui-refresh-wrapper{position:absolute;width:100%;top:-0.68em;z-index:-1}
+.ui-refresh .ui-refresh-up .ui-refresh-flip{-webkit-transform:rotate(180deg) translateZ(0)}
+.ui-refresh{overflow:hidden !important}
 @-webkit-keyframes loading-frames{0%{transform:rotate(0deg);-webkit-transform:rotate(0deg)} 100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.loading-wrapper{position:absolute;z-index:10005;top:0;left:0;bottom:0;right:0;background:#fff}
 .loading-wrapper *{-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .loading-wrapper .loading-container{position:absolute;width:124px;height:86px;margin:0 -62px;left:50%;top:75px}

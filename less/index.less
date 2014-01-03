@@ -10,7 +10,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 html,body,.cont{
 	height: 100%;
 	font-family: "微软雅黑";
-	overflow-x:hidden;
+	overflow:hidden;
 }
 a{
 	text-decoration: none;
@@ -259,7 +259,16 @@ form{
 		font-size: 0.8em;
 	}
 }
-
+.ui-icon-delete {
+	background-position: -72px 50%;
+}
+.ui-icon {
+	-webkit-background-size: 776px 18px;
+	background-size: 776px 18px;
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+}
 //tabs
 .ui-tabs-nav{
 	li{
@@ -305,7 +314,7 @@ form{
 		padding: 0;
 	}
 }
-.scroller{
+.ui-refresh,.scroller{
 	li {
 		position: relative;
 		height: 55px;
@@ -332,8 +341,46 @@ form{
 		-webkit-background-size: 45px 14px;
 	}
 }
-
-
+.ui-refresh{
+	li span{
+		display: block;
+		line-height: 35px;
+	}
+	li span+span{
+		line-height: 11px;
+		font-size: .7em;
+		color: #b2b2b2;
+	}
+	.ui-refresh-up{
+		span{
+			margin:0;
+		}
+	}
+}
+//refresh
+.ui-refresh .ui-refresh-up .ui-refresh-icon, .ui-refresh .ui-refresh-down .ui-refresh-icon {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	vertical-align: middle;
+	background: url('r-flip.png') no-repeat;
+	-webkit-background-size: 25px 25px;
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 400ms;
+	-webkit-transition-timing-function: ease-in-out;
+}
+.ui-refresh-wrapper{
+	position: absolute;
+	width: 100%;
+	top: -0.68em;
+	z-index: -1;
+}
+.ui-refresh .ui-refresh-up .ui-refresh-flip {
+	-webkit-transform: rotate(180deg) translateZ(0);
+}
+.ui-refresh{
+	overflow: hidden !important;
+}
 
 /*
 loading

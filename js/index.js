@@ -217,18 +217,17 @@
                      var str = '<li><a href="#user_<%=id%>" uid="<%=id%>"><img src="<%=u_photo%>"><span><%=u_name%></span><span><%=d_name%></span></a></li>';
                      html += $.parseTpl(str, data[i]);
                  };
-                 /*组件初始化js begin*/
-                 $('.ui-refresh').css({'height':window.innerHeight - 42}).refresh({
-                     threshold:5,
-                     load:function() {
-                         alert();
-                     }
-                 }).iScroll();
-                 /*组件初始化js end*/
                  $(".a_page").empty().html("<div class='ui-refresh'><div class='ui-refresh-up'></div><ul class='data-list'></ul></div>");
                  $(".data-list").html(html);
-                 //模拟原生拉动
-                 $(".scroller").iScroll();
+                 /*组件初始化js begin*/
+                 $('.ui-refresh').css('height', $(window).height()+10).refresh({
+                     topOffset:54,
+                     load: function() {
+                         
+                     }
+                 });
+                 /*组件初始化js end*/
+
                  //存储数据
                  sessionStorage.setItem("collage", JSON.stringify(data));
                  $("#Content2 .loading-wrapper").hide();
@@ -263,13 +262,13 @@
              mainSection.css('-webkit-transform', 'translateX(0)');
              demoSection.css('-webkit-transform', 'translateX(100%)');
          } else {
-             updateDemoSection(widgetName);
              mainSection.css('-webkit-transform', 'translateX(-100%)');
              demoSection.show();
              window.scrollTo(0, 0);
              setTimeout(function() {
                  demoSection.css('-webkit-transform', 'translateX(0)');
              }, 0);
+             updateDemoSection(widgetName);
          }
      }
 

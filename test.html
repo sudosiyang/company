@@ -3,40 +3,146 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<script type="text/javascript" src="js/zepto.js"></script>
-	<script type="text/javascript" src="js/gmu.js"></script>
+	<script type="text/javascript" src="js/test/zepto.js"></script>
+	<script type="text/javascript" src="js/test/gmu.js"></script>
+	<script type="text/javascript" src="js/test/iscroll.js"></script>
+	<script type="text/javascript" src="js/test/event.js"></script>
+	<script type="text/javascript" src="js/test/widget.js"></script>
+	<script type="text/javascript" src="js/test/refresh.js"></script>
+	<script type="text/javascript" src="js/test/$iscroll.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="css/gmu.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<title>TODOS</title>
 </head>
 <body>
-	<div>
-		<div class="ui-refresh">
+
+	<div class="ui-refresh">
 		<div class="ui-refresh-up"></div>
-		<ul class="data-list"></ul>
-		
+		<!--setup方式带有class为ui-refresh-down或ui-refresh-up的元素必须加上，用于放refresh按钮-->
+		<ul class="data-list">
+			<li>
+				<a href="#user_4" uid="4">
+					<img src="user/12.png">
+					<span>马志磊</span>
+					<span>运营销售</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_8" uid="8">
+					<img src="user/11.png">
+					<span>陈穗嘉</span>
+					<span>后端核心</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_6" uid="6">
+					<img src="user/5.png">
+					<span>董文龙</span>
+					<span>数据服务</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_1" uid="1">
+					<img src="user/14.png">
+					<span>苏思洋</span>
+					<span>前端设计</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_7" uid="7">
+					<img src="user/1.png">
+					<span>胡永乐</span>
+					<span>后端核心</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_5" uid="5">
+					<img src="user/4.png">
+					<span>田斌</span>
+					<span>后端核心</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_13" uid="13">
+					<img src="user/3.png">
+					<span>王磊</span>
+					<span>数据服务</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_3" uid="3">
+					<img src="user/6.png">
+					<span>曹庆森</span>
+					<span>数据服务</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_11" uid="11">
+					<img src="user/7.png">
+					<span>徐德艳</span>
+					<span>前端设计</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_10" uid="10">
+					<img src="user/8.png">
+					<span>张力</span>
+					<span>运营销售</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_2" uid="2">
+					<img src="user/13.png">
+					<span>张中华</span>
+					<span>数据服务</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_9" uid="9">
+					<img src="user/10.png">
+					<span>吴迪</span>
+					<span>前端设计</span>
+				</a>
+			</li>
+			<li>
+				<a href="#user_12" uid="12">
+					<img src="user/2.png">
+					<span>刘光伦</span>
+					<span>后端核心</span>
+				</a>
+			</li>
+		</ul>
+		<div class="ui-refresh-down"></div>
 		<!--setup方式带有class为ui-refresh-down或ui-refresh-up的元素必须加上，用于放refresh按钮-->
 	</div>
-	</div>
-	
+
 	<script type="text/javascript">
-	$('.ui-refresh').refresh({
-     load: function (dir, type) {
-         var me = this;
-         $.getJSON('../../data/refresh.php', function (data) {
-             var $list = $('.data-list'),
-                     html = (function (data) {      //数据渲染
-                         var liArr = [];
-                         $.each(data, function () {
-                             liArr.push(this.html);
-                         });
-                         return liArr.join('');
-                     })(data);
-             $list[dir == 'up' ? 'prepend' : 'append'](html);
-             me.afterDataLoading();    //数据加载完成后改变状态
-         });
-     }
- });
+	
+    $(function () {
+        /*组件初始化js begin*/
+            $('.ui-refresh').css('height', window.innerHeight - ($('header').height() || 42)).refresh({
+                load: function (dir, type) {
+                    var me = this;
+                    $.getJSON('../../data/refresh.php', function (data) {
+                        var $list = $('.data-list'),
+                            html = (function (data) {      //数据渲染
+                                var liArr = [];
+                                $.each(data, function () {
+                                    liArr.push(this.html);
+                                });
+                                return liArr.join('');
+                            })(data);
+
+                        $list[dir == 'up' ? 'prepend' : 'append'](html);
+                        me.afterDataLoading(dir);    //数据加载完成后改变状态
+                    });
+                }
+            });
+        /*组件初始化js end*/
+    })
+
+	
 	</script>
 </body>
 </html>
