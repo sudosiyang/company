@@ -9,7 +9,7 @@
 			if (! $result)
 				return array('result'=>false,'name' => false );
 			if ($result ['u_pwd'] == $pwd) {
-				return array('result'=>true,'name' => $userinfo['u_name'],'photo'=> $userinfo['u_photo']);
+				return array('result'=>true,'name' => $userinfo['u_name'],'uid'=>$result ['id'],'photo'=> $userinfo['u_photo']);
 			} else{
 				return array('result'=>false,'pwd' => false );
 			}
@@ -31,17 +31,13 @@
 		//拉取部门信息
 		function department(){
 			$sql = "SELECT * FROM `t_user` a join `t_departmanet` b on a.d_id=b.d_id";
-			
 			$this->execute ( $sql );
-			// $result = $this->fetchAssoc ();
 			while ($arr=$this->fetchAssoc()) {
-				# code...
 				$result[] = $arr;
 			}
 			$department = array( );
 			$u_d = array();
 			foreach ($result as $key => $value) {
-				# code...
 				$u_d[] = $value['d_name'];
 				
 			}
@@ -49,20 +45,34 @@
 			foreach ($u_d as $k=>$v) {
 				$department[]['d_name'] = $v;
 			}
-			
 			foreach ($department as $k => $arr) {
-				# code...
 				$d_name = $arr['d_name'];
 				foreach ($result as $u) {
-					# code...
 					if($d_name==$u['d_name'])
 					{
 						$department[$k]['users'][]=array('id'=>$u['id'],'u_name'=>$u['u_name'],'photo'=>$u['u_photo'],'phone'=>$u['phonenum']);
 					}
 				}
 			}
-			
 			return $department;
+		}
+		//拉取任务
+		function getTask($uid){
+			$sql = "SELECT * FROM t_task WHERE u_id = $uid ";
+			$this->execute ( $sql );
+			while ( $arr = $this->fetchAssoc()) {
+				$result[]=$arr;
+			}
+			return $result;
+		}
+		//拉取同事
+		function getCollage(){
+			$sql = "SELECT id,u_name,phonenum,u_photo,d_name FROM t_user,t_departmanet WHERE t_user.d_id=t_departmanet.d_id ORDER BY t_user.u_name ASC";
+			$this->execute ( $sql );
+			while ( $arr = $this->fetchAssoc()) {
+				$result[]=$arr;
+			}
+			return $result;
 		}
 	}
 ?>

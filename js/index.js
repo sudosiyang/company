@@ -1,11 +1,7 @@
  var version = "v1.1.5";
  var ajaxURL = "ajax/";
- //判读是否加载新的数据
- var flag = {
-     department: true
- } 
  $(function($) {
-
+     window.scrollTo(0, 1); //收起地址栏
      var ajax = function(grams, fn) {
          $.ajax({
              url: ajaxURL,
@@ -17,6 +13,8 @@
              }
          });
      }
+
+
      $('#J_toolbar').toolbar({});
      //初始化page
      var mainSection = $("#Content1").show();
@@ -24,7 +22,7 @@
      $("#Content2").css('-webkit-transform', 'translateX(100%)');
      $('.__page__').css('-webkit-transition', 'all .3s ease-in-out');
      //点击菜单，panel
-     $('.ui-toolbar-wrap,.cont').on("click", "a", function(e) {
+     $('.ui-toolbar-wrap').on("click", "a", function(e) {
          var widgetName = $(this).attr('href');
          location.hash = widgetName;
          e.preventDefault();
@@ -60,7 +58,8 @@
      /*左右滑动调出菜单*/
      $("#Content1").on('swipeRight', function(event) {
          $('.panel').panel('open', 'push');
-     }).on('swipeLeft', function(event) {
+     });
+     $(".panel").on('swipeLeft', function(event) {
          $('.panel').panel('close', 'push');
      });
 
@@ -71,6 +70,48 @@
          title: '登录',
          content: '<form action=""><input type="text" class="_name" placeholder="请输入账号"><input type="password" class="_pwd" placeholder="请输入密码"><input type="submit" value="登 录" class="_login"><div class="links"><a href="#" class="register">注册账号</a><a href="#" class="forgive">忘记密码</a></div></form>'
      });
+     var Login = (function() {
+         return {
+             checkLogin: function() {
+                 if (localStorage.getItem("login")) {
+                     var data = JSON.parse(localStorage.getItem("login"));
+                     this.login(data);
+                 }
+             },
+             login: function(_data) {
+                 var _this = this;
+                 var succeed = function(data) {
+                     if (!data.result) {
+                         if (data.name) alert("用户名错误");
+                         else alert("密码错误");
+                     } else {
+                         $(".login").find("img").attr("src", data.photo).next().empty().html("<a href='#' id='user'>" + data.name + "</a>");
+                         login_in.close();
+                         localStorage.setItem("login", JSON.stringify(_data));
+                         sessionStorage.setItem("user", JSON.stringify(data));
+                         //拉取自己的数据
+                         _this.getTask();
+                     }
+                 }
+                 ajax(_data, succeed);
+             },
+             getTask: function() {
+                 if (sessionStorage.user) {
+                     var user = JSON.parse(sessionStorage.user);
+                     var data = {
+                         req: "getTask",
+                         uid: user.uid
+                     }
+                     var ansyTask = function(data) {
+                         console.log(data);
+                     }
+                     ajax(data, ansyTask);
+                 }
+             }
+         }
+     })();
+     //确认是否登录过
+     Login.checkLogin();
      $("#login").click(function(event) {
          login_in.open();
          return false;
@@ -81,17 +122,7 @@
              name: $("form ._name").val(),
              pwd: $("form ._pwd").val()
          }
-         var succeed = function(data) {
-             if (!data.result) {
-                 if (data.name) alert("用户名错误");
-                 else alert("密码错误");
-             } else {
-                 $(".login").find("img").attr("src", data.photo).next().empty().html("<a href='#' id='user'>" + data.name + "</a>");
-                 login_in.close();
-                 //拉取自己的数据
-             }
-         }
-         ajax(data, succeed);
+         Login.login(data);
          location.hash = "";
          return false;
      });
@@ -117,35 +148,95 @@
          return {
              department: function() {
                  var _this = this;
-                 var department = localStorage.getItem("department") ? localStorage.getItem("department") : null;
-                 if (!(!flag.department || !department)) {
+                 var department = sessionStorage.department ? sessionStorage.department : null;
+                 if (!department) {
                      var data = {
                          req: "department"
                      };
                      var succeed = function(data) {
-                         _this.createNavigator(data);
+                         _this.createTab(data);
                      }
                      ajax(data, succeed);
-                     flag = false;
                  } else {
-                     this.createNavigator(JSON.parse(department));
+                     this.createTab(JSON.parse(department));
                  }
 
              },
-             createNavigator: function(data) {
+             collage: function() {
+                 var _this = this;
+                 var collage = sessionStorage.collage ? sessionStorage.collage : null;
+                 if (!collage) {
+                     var data = {
+                         req: "collage"
+                     };
+                     var succeed = function(data) {
+                         _this.createCollage(data);
+                     }
+                     ajax(data, succeed);
+                 } else {
+                     this.createCollage(JSON.parse(collage));
+                 }
+             },
+             createTab: function(data) {
+                 $("#Content2 .loading-wrapper").show();
                  $(".a_page").empty().html('<div class="nav"></div>');
                  var contents = [];
                  for (i = 0; i < data.length; i++) {
                      var obj = {};
-                     obj.text = data[i].d_name;
-                     obj.href = "#nav_" + i;
+                     var html = "<div class='scroller'><ul>";
+                     obj.title = data[i].d_name;
+                     for (var j = 0; j < data[i].users.length; j++) {
+                         var str = '<li><a href="#user_<%=id%>"><img src="<%=photo%>"><span><%=u_name%></span></a></li>';
+                         html += $.parseTpl(str, data[i].users[j]);
+                     };
+                     html += "</ul></div>";
+                     obj.content = html;
                      contents.push(obj);
                  }
-                 var instance = new gmu.Navigator('.nav', {
-                     content: contents
+                 window.scrollTo(0, 1); //收起地址栏
+                 $(".nav").tabs({
+                     items: contents,
+                     ready: function() {
+                         $(".nav").on('click', 'li a', function(event) {
+                             event.preventDefault();
+                         });
+                     }
+                 }).css({
+                     'height': ($(window).height() - 80)
                  });
-                 localStorage.setItem("department", JSON.stringify(data));
-                 instance.on('select', function(e, num, el) {});
+                 //模拟原生拉动
+                 $(".scroller").iScroll();
+                 //存储数据
+                 sessionStorage.setItem("department", JSON.stringify(data));
+                 $("#Content2 .loading-wrapper").hide();
+             },
+             createCollage: function(data) {
+                 $("#Content2 .loading-wrapper").show();
+                 var html = "";
+                 for (var i = data.length - 1; i >= 0; i--) {
+                     var str = '<li><a href="#user_<%=id%>" uid="<%=id%>"><img src="<%=u_photo%>"><span><%=u_name%></span><span><%=d_name%></span></a></li>';
+                     html += $.parseTpl(str, data[i]);
+                 };
+                 /*组件初始化js begin*/
+                 $('.ui-refresh').css({'height':window.innerHeight - 42}).refresh({
+                     threshold:5,
+                     load:function() {
+                         alert();
+                     }
+                 }).iScroll();
+                 /*组件初始化js end*/
+                 $(".a_page").empty().html("<div class='ui-refresh'><div class='ui-refresh-up'></div><ul class='data-list'></ul></div>");
+                 $(".data-list").html(html);
+                 //模拟原生拉动
+                 $(".scroller").iScroll();
+                 //存储数据
+                 sessionStorage.setItem("collage", JSON.stringify(data));
+                 $("#Content2 .loading-wrapper").hide();
+             },
+             createTask: function(templ) {
+                 $("#Content2 .loading-wrapper").show();
+                 $(".a_page").empty().html('<div class="nav"></div>');
+                 $(".nav").html(templ);
                  $("#Content2 .loading-wrapper").hide();
              }
          }
@@ -160,6 +251,8 @@
          });
          if (SecondPage[widget]["templ"] == "function") {
              eval("getData." + widget + "()");
+         } else {
+             eval("getData." + widget + "('" + SecondPage[widget]["templ"] + "')");
          }
      }
 

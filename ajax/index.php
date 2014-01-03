@@ -23,5 +23,13 @@
 		$todo = new Todo();
 		echo json_encode($todo->department());
 	}
+	function getTask($array){
+		$todo = new Todo();
+		echo json_encode($todo->getTask($array->uid));
+	}
+	function collage($array){
+		$todo = new Todo();
+		echo json_encode($todo->getCollage());
+	}
 	call_user_func_array ( $get->req, array ($get) );
 ?>
