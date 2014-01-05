@@ -58,7 +58,7 @@
 		}
 		//拉取任务
 		function getTask($uid){
-			$sql = "SELECT * FROM t_task WHERE u_id = $uid ";
+			$sql = "SELECT * FROM t_task WHERE u_id = $uid ORDER BY rank DESC";
 			$this->execute ( $sql );
 			while ( $arr = $this->fetchAssoc()) {
 				$result[]=$arr;

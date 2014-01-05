@@ -2962,7 +2962,7 @@ var gmu = gmu || {
         },
 
         _createBtn: function (dir) {
-            this._options['$' + dir + 'Elem'].html('<span class="ui-refresh-icon"></span><span class="ui-refresh-label">加载更多</span>');
+            this._options['$' + dir + 'Elem'].html('<span class="ui-refresh-icon"></span><span class="ui-refresh-label">点击刷新</span>');
 
             return this;
         },
@@ -2990,7 +2990,7 @@ var gmu = gmu || {
                     opts._actDir = '';
                     break;
                 case 'loading':
-                    refreshInfo['$label'].html('加载中...');
+                    refreshInfo['$label'].html('刷新中...');
                     refreshInfo['$icon'].addClass('ui-loading');
                     opts._actDir = dir;
                     break;
@@ -3150,7 +3150,7 @@ var gmu = gmu || {
 
             if (state == 'beforeload') {
                 refreshInfo['$icon'].removeClass('ui-loading');
-                refreshInfo['$label'].html('松开立即加载');
+                refreshInfo['$label'].html('松开立即刷新');
             }
             return me.origin(dir, state);
         },
@@ -3266,7 +3266,7 @@ var gmu = gmu || {
                     refreshInfo['$icon'].addClass('ui-refresh-icon');
                     break;
                 case 'beforeload':
-                    refreshInfo['$label'].html('松开立即加载');
+                    refreshInfo['$label'].html('松开立即刷新');
                     refreshInfo['$icon'].addClass('ui-refresh-flip');
                     break;
                 case 'loading':
@@ -3396,7 +3396,7 @@ var gmu = gmu || {
                     opts._actDir = '';
                     break;
                 case 'beforeload':
-                    refreshInfo['$label'].html('松开立即加载');
+                    refreshInfo['$label'].html('松开立即刷新');
                     refreshInfo['$icon'].addClass('ui-refresh-flip');
                     break;
                 case 'loading':
@@ -4428,6 +4428,36 @@ var gmu = gmu || {
     } );
 })( gmu, gmu.$ );
 
+/*!Widget toolbar/$position.js*/
+/**
+ * @file Toolbar fix插件
+ * @module GMU
+ * @import widget/toolbar/toolbar.js, extend/fix.js
+ */
+(function( gmu, $ ) {
+    /**
+     * Toolbar position插件，调用position方法可以将Toolbar固定在某个位置。
+     *
+     * @class position
+     * @namespace Toolbar
+     * @pluginfor Toolbar
+     */
+    gmu.Toolbar.register( 'position', {
+        /**
+         * 定位Toolbar
+         * @method position
+         * @param {Object} opts 定位参数，格式与$.fn.fix参数格式相同
+         * @for Toolbar
+         * @uses Toolbar.position
+         * @return {self} 返回本身。
+         */
+        position: function( opts ) {
+            this.$el.fix( opts );
+
+            return this;
+        }
+    } );
+})( gmu, gmu.$ );
 /*!Widget popover/popover.js*/
 /**
  * @file 弹出层组件, 基础版本。
@@ -4800,159 +4830,6 @@ var gmu = gmu || {
          */
     }, gmu.Popover );
 
-})( gmu, gmu.$ );
-/*!Widget dropmenu/horizontal.js*/
-/**
- * @file Dropmenu 支持水平排列插件
- * @module GMU
- * @import widget/dropmenu/dropmenu.js
- */
-(function( gmu ) {
-
-    gmu.Dropmenu.options.horizontal = true;
-
-    /**
-     * Dropmenu 支持水平排列插件
-     *
-     * @class horizontal
-     * @namespace Dropmenu
-     * @pluginfor Dropmenu
-     */
-    gmu.Dropmenu.option( 'horizontal', true, function() {
-        var me = this;
-
-        me.on( 'done.dom', function( e, $root ) {
-            $root.addClass( 'ui-horizontal' );
-        } );
-    } );
-})( gmu, gmu.$ );
-/*!Widget dropmenu/placement.js*/
-/**
- * @file Dropmenu 简单版定位
- * @module GMU
- * @import widget/dropmenu/dropmenu.js, extend/offset.js
- */
-(function( gmu, $ ) {
-
-    // 设置默认Options
-    $.extend( gmu.Dropmenu.options, {
-        /**
-         * @property {String} [placement='bottom'] 默认让其在下方显示
-         * @namespace options
-         * @for Dropmenu
-         * @uses Dropmenu.placement
-         */
-        placement: 'bottom',
-
-        /**
-         * @property {String} [align='center'] 默认居中对齐
-         * @namespace options
-         * @for Dropmenu
-         * @uses Dropmenu.placement
-         */
-        align: 'center',
-
-        /**
-         * @property {Object} [offset=null] 偏移量
-         * @namespace options
-         * @for Dropmenu
-         * @uses Dropmenu.placement
-         */
-        offset: null
-    } );
-
-    /**
-     * Dropmenu 简单版定位
-     *
-     * @class placement
-     * @namespace Dropmenu
-     * @pluginfor Dropmenu
-     */
-    gmu.Dropmenu.option( 'placement', function( val ) {
-        return ~[ 'top', 'bottom' ].indexOf( val );
-    }, function() {
-        var config = {
-                'top_center': 'center top center bottom',
-                'top_left': 'left top left bottom',
-                'top_right': 'right top right bottom',
-                'bottom_center': 'center bottom center top',
-                'bottom_right': 'right bottom right top',
-                'bottom_left': 'left bottom left top'
-            },
-            presets = {},    // 支持的定位方式。
-
-            info;
-
-        $.each( config, function( preset, args ) {
-            args = args.split( /\s/g );
-            args.unshift( preset );
-            presets[ preset ] = function() {
-                return placement.apply( null, args );
-            };
-        } );
-
-        function getPos( pos, len ) {
-            return pos === 'right' || pos === 'bottom' ? len :
-                        pos === 'center' ? len / 2 : 0;
-        }
-
-        // 暂时用简单的方式实现，以后考虑采用position.js
-        function placement( preset, atH, atV, myH, myV ) {
-            var of = info.of,
-                coord = info.coord,
-                offset = info.offset,
-                top = of.top,
-                left = of.left;
-
-            left += getPos( atH, of.width ) - getPos( myH, coord.width );
-            top += getPos( atV, of.height ) - getPos( myV, coord.height );
-
-            // offset可以是fn
-            offset = typeof offset === 'function' ? offset.call( null, {
-                left: left,
-                top: top
-            }, preset ) : offset || {};
-
-            return {
-                left: left + (offset.left || 0),
-                top: top + (offset.top || 0)
-            };
-        }
-
-        this.on( 'placement', function( e, $el, $of ) {
-            var me = this,
-                opts = me._options,
-                placement = opts.placement,
-                align = opts.align,
-                coord;
-
-            info = {
-                coord: $el.offset(),
-                of: $of.offset(),
-                placement: placement,
-                align: align,
-                $el: $el,
-                $of: $of,
-                offset: opts.offset
-            };
-
-            // 设置初始值
-            coord = presets[ placement + '_' + align ]();
-
-            // 提供机会在设置之前修改位置
-            me.trigger( 'before.placement', coord, info, presets );
-            
-            if ( /^(\w+)_(\w+)$/.test( info.preset ) ) {
-                info.placement = RegExp.$1;
-                info.align = RegExp.$2;
-            }
-
-            $el.offset( coord );
-
-            // 提供给arrow位置定位用
-            me.trigger( 'after.placement', coord, info );
-        } );
-    } );
 })( gmu, gmu.$ );
 /*!Widget gotop/gotop.js*/
 /**
@@ -5608,6 +5485,67 @@ var gmu = gmu || {
          */
     });
 })( gmu, gmu.$ );
+
+/*!Widget dialog/$position.js*/
+/**
+ * @file Dialog － 父容器插件
+ * @module GMU
+ * @import widget/dialog/dialog.js, extend/position.js
+ */
+(function( gmu, $, undefined ) {
+    /**
+     * @name dialog.position
+     * @desc 用zepto.position来定位dialog
+     */
+    /**
+     * 用zepto.position来定位dialog
+     *
+     * @class position
+     * @namespace Dialog
+     * @pluginfor Dialog
+     */
+    gmu.Dialog.register( 'position', {
+
+        _init: function(){
+            var opts = this._options;
+
+            opts.position = opts.position || {of: opts.container || window, at: 'center', my: 'center'};
+        },
+
+        /**
+         * 用来设置弹出框的位置，如果不另外设置，组件默认为上下左右居中对齐。位置参数接受，数值，百分比，带单位的数值，或者'center'。
+         * 如: 100， 100px, 100em, 10%, center;暂时不支持 left, right, top, bottom.
+         * @method position
+         * @param {String|Number} [x] X轴位置
+         * @param {String|Number} [y] Y轴位置
+         * @for Dialog
+         * @uses Dialog.position
+         * @return {self} 返回本身。
+         */
+        position: function(x, y){
+            var opts = this._options;
+            if(!$.isPlainObject(x)){//兼容老格式！
+                opts.position.at = 'left'+(x>0?'+'+x: x)+' top'+(y>0?'+'+y: y);
+            } else $.extend(opts.position, x);
+            return this.refresh();
+        },
+
+        _calculate:function () {
+            var me = this,
+                opts = me._options,
+                position = opts.position,
+                ret = me.origin();
+
+            opts._wrap.position($.extend(position, {
+                using: function(position){
+                    ret.wrap = position;
+                }
+            }));
+
+            return ret;
+        }
+    } );
+})( gmu, gmu.$);
 
 /*!Widget button/button.js*/
 /**
@@ -6694,6 +6632,194 @@ var gmu = gmu || {
 
 })( gmu, gmu.$ );
 
+/*!Widget navigator/navigator.js*/
+/**
+ * @file 导航栏组件
+ * @import core/widget.js, extend/highlight.js
+ * @module GMU
+ */
+(function( gmu, $, undefined ) {
+    
+    /**
+     * 导航栏组件
+     *
+     * @class Navigator
+     * @constructor Html部分
+     * ```html
+     * 
+     * ```
+     *
+     * javascript部分
+     * ```javascript
+     * 
+     * ```
+     * @param {dom | zepto | selector} [el] 用来初始化导航栏的元素
+     * @param {Object} [options] 组件配置项。具体参数请查看[Options](#GMU:Navigator:options)
+     * @grammar $( el ).navigator( options ) => zepto
+     * @grammar new gmu.Navigator( el, options ) => instance
+     */
+    gmu.define( 'Navigator', {
+        options: {
+
+            /**
+             * @property {Array} [content=null] 菜单数组
+             * @namespace options
+             */
+            content: null,
+
+            /**
+             * @property {String} [event='click'] 交互事件名
+             * @namespace options
+             */
+            event: 'click'
+        },
+
+        template: {
+            list: '<ul>',
+            item: '<li><a<% if( href ) { %> href="<%= href %>"<% } %>>' +
+                    '<%= text %></a></li>'
+        },
+
+        _create: function() {
+            var me = this,
+                opts = me._options,
+                $el = me.getEl(),
+                $list = $el.find( 'ul' ).first(),
+                name = 'ui-' + me.widgetName,
+                renderer,
+                html;
+
+            // 如果没有包含ul节点，则说明通过指定content来create
+            // 建议把create模式给拆出去。很多时候都是先写好在dom中了。
+            if ( !$list.length && opts.content ) {
+                $list = $( me.tpl2html( 'list' ) );
+                renderer = me.tpl2html( 'item' );
+
+                html = '';
+                opts.content.forEach(function( item ) {
+
+                    // 如果不提供默认值，然后同时某些key没有传值，parseTpl会报错
+                    item = $.extend( {
+                        href: '',
+                        text: ''
+                    }, typeof item === 'string' ? {
+                        text: item
+                    } : item );
+
+                    html += renderer( item );
+                });
+
+                $list.append( html ).appendTo( $el );
+            } else {
+                
+                // 处理直接通过ul初始化的情况
+                if ( $el.is( 'ul, ol' ) ) {
+                    $list = $el.wrap( '<div>' );
+                    $el = $el.parent();
+                }
+
+                if ( opts.index === undefined ) {
+
+                    // 如果opts中没有指定index, 则尝试从dom中查看是否有比较为ui-state-active的
+                    opts.index = $list.find( '.ui-state-active' ).index();
+                    
+                    // 没找到还是赋值为0
+                    ~opts.index || (opts.index = 0);
+                }
+            }
+
+            me.$list = $list.addClass( name + '-list' );
+            me.trigger( 'done.dom', $el.addClass( name ), opts );
+
+            // bind Events
+            $list.highlight( 'ui-state-hover', 'li' );
+            $list.on( opts.event + me.eventNs,
+                    'li:not(.ui-state-disable)>a', function( e ) {
+                me._switchTo( $( this ).parent().index(), e );
+            } );
+
+            me.index = -1;
+            me.switchTo( opts.index );
+        },
+
+        _switchTo: function( to, e ) {
+            if ( to === this.index ) {
+                return;
+            }
+
+            var me = this,
+                list = me.$list.children(),
+                evt = gmu.Event( 'beforeselect', e ),
+                cur;
+                
+            me.trigger( evt, list.get( to ) );
+            
+            if ( evt.isDefaultPrevented() ) {
+                return;
+            }
+
+            cur = list.removeClass( 'ui-state-active' )
+                    .eq( to )
+                    .addClass( 'ui-state-active' );
+
+            me.index = to;
+            return me.trigger( 'select', to, cur[ 0 ] );
+        },
+
+        /**
+         * 切换到导航栏的某一项
+         * @param {Number} to 序号
+         * @method switchTo
+         */
+        switchTo: function( to ) {
+            return this._switchTo( ~~to );
+        },
+
+        /**
+         * 取消选择
+         * @method unselect
+         */
+        unselect: function() {
+            this.index = -1;
+            this.$list.children().removeClass( 'ui-state-active' );
+        },
+
+        /**
+         * 获取当前选中的序号
+         * @method getIndex
+         */
+        getIndex: function() {
+            return this.index;
+        }
+
+        /**
+         * @event ready
+         * @param {Event} e gmu.Event对象
+         * @description 当组件初始化完后触发。
+         */
+
+        /**
+         * @event beforeselect
+         * @param {Event} e gmu.Event对象
+         * @param {Element} 目标元素
+         * @description 当选择的序号发生切换前触发
+         */
+        
+        /**
+         * @event select
+         * @param {Event} e gmu.Event对象
+         * @param {Event} 当前选择的序号
+         * @param {Element} 上一次选择的元素
+         * @description 当选择的序号发生切换后触发
+         */
+        
+        /**
+         * @event destroy
+         * @param {Event} e gmu.Event对象
+         * @description 组件在销毁的时候触发
+         */
+    } );
+})( gmu, gmu.$ );
 /*!Widget panel/panel.js*/
 /**
  * @file panel组件
@@ -7020,185 +7146,6 @@ var gmu = gmu || {
          * @event close
          * @param {Event} e gmu.Event对象
          * @description panel关闭后触发
-         */
-        
-        /**
-         * @event destroy
-         * @param {Event} e gmu.Event对象
-         * @description 组件在销毁的时候触发
-         */
-    });
-
-})( gmu, gmu.$ );
-
-/*!Widget add2desktop/add2desktop.js*/
-/**
- * @file 在iOS中将页面添加为桌面图标(不支持Android系统)
- * @import core/widget.js, extend/fix.js
- * @module GMU
- */
-(function( gmu, $, undefined ) {
-    /**
-     * 在iOS中将页面添加为桌面图标(不支持Android系统)
-     * @class Add2desktop
-     * @constructor Html部分
-     *
-     * javascript部分
-     * ```javascript
-     * gmu.Add2desktop({icon:'../../../examples/assets/icon.png'});
-     * ```
-     * @param {dom | zepto | selector} [el] 用来初始化工具栏的元素
-     * @param {Object} [options] 组件配置项。具体参数请查看[Options](#GMU:Toolbar:options)
-     * @grammar  gmu.Add2desktop([el [,options]]) =>instance
-     * @grammar  $(el).add2desktop(options) => zepto
-     */
-    gmu.define('Add2desktop', {
-        options: {
-            /**
-             * @property {String} icon 产品线ICON的URL
-             * @namespace options
-             */
-            icon: '',
-            /**
-             * @property {selector} [container=document.body] 组件容器
-             * @namespace options
-             */
-            container:  '',
-            /**
-             * @property {String} [key='_gmu_adddesktop_key'] LocalStorage的key值
-             * @namespace options
-             */
-            key:'_gmu_adddesktop_key',
-            /**
-             * @property {Boolean} [useFix=true] 是否使用fix固顶效果
-             * @namespace options
-             */
-            useFix: true,
-            /**
-             * @property {Object} [position={bottom:12,left:50%}] 固顶时使用的位置参数
-             * @namespace options
-             */
-            position: {
-                bottom: 12,
-                left: '50%'
-            },
-            /**
-             * @property {Function} [beforeshow=fn}] 显示前触发的事件，调用e.preventDefault()可以阻止显示
-             * @namespace options
-             */
-            beforeshow : function(e){
-                this.key() && e.preventDefault()
-            },
-            /**
-             * @property {Function} [afterhide=fn}] 隐藏后触发的事件，可以在这里写LocalStorage的值
-             * @namespace options
-             */
-            afterhide : function(){
-                this.key(1)
-            },
-            _isShow:false
-        },
-
-        _init: function() {
-            var me = this;
-
-            me.on( 'ready', function(){
-                me.$el.find('.ui-add2desktop-close').on('click',function () {
-                    me.hide();
-                });
-                me._options['useFix'] && me.$el.fix(me._options['position']);
-
-                me.show();
-            } );
-
-            me.on( 'destroy', function(){
-                me.$el.remove();
-            } );
-        },
-
-        _create: function() {
-            var me = this,
-                $el,
-                version = ($.os.version && $.os.version.substr(0, 3) > 4.1 ? 'new' :'old');
-
-            if($.os.version && $.os.version.substr(0, 3) >= 7.0) {
-                version = 'iOS7';
-            }
-
-            if( me._options.setup ) {
-                var src = me.$el.children('img').attr('src');
-                src && (me._options['icon'] = src);
-            }
-            $el = me.$el || (me.$el = $('<div></div>'));
-            $el.addClass('ui-add2desktop').appendTo(me._options['container'] || (me.$el.parent().length ? '' : document.body)),
-
-            $el.html('<img src="' + me._options['icon'] + '"/><p>先点击<span class="ui-add2desktop-icon-' + version +'"></span>，<br />再"添加到主屏幕"</p><span class="ui-add2desktop-close"><b></b></span><div class="ui-add2desktop-arrow"><b></b></div>');
-        },
-
-        /**
-         * 存储/获取LocalStorage的键值
-         * @method key
-         * @param {String} [value] LocalStorage的键值，不传表示取值
-         * @return {self} LocalStorage的值
-         */
-        key : function(value){
-            var ls = window.localStorage;
-            return value !== undefined ? ls.setItem(this._options['key'], value) : ls.getItem(this._options['key']);
-        },
-
-        /**
-         * 显示add2desktop
-         * @method show
-         * @return {self} 返回本身。
-         */
-
-        /**
-         * @event beforeshow
-         * @param {Event} e gmu.Event对象
-         * @description add2desktop显示前触发
-         */
-        show: function() {
-            var me = this;
-
-            if( !me._options['_isShow'] ) {
-                if(!$.os.ios || $.browser.uc || $.browser.qq || $.browser.chrome) return me; //todo 添加iOS原生浏览器的判断
-                var event = new gmu.Event('beforeshow');
-                me.trigger(event);
-                if(event.isDefaultPrevented()) return me;
-                me.$el.css('display', 'block');
-                me._options['_isShow'] = true;
-            }
-
-            return me;
-        },
-
-        /**
-         * 隐藏add2desktop
-         * @method hide
-         * @return {self} 返回本身。
-         */
-
-        /**
-         * @event afterhide
-         * @param {Event} e gmu.Event对象
-         * @description add2desktop显示后触发
-         */
-        hide: function() {
-            var me = this;
-
-            if(me._options['_isShow']) {
-                me.$el.css('display', 'none');
-                me._options['_isShow'] = false;
-                me.trigger('afterhide');
-            }
-
-            return me;
-        }
-        
-        /**
-         * @event ready
-         * @param {Event} e gmu.Event对象
-         * @description 当组件初始化完后触发。
          */
         
         /**

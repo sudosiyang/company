@@ -370,9 +370,9 @@ form{
 	-webkit-transition-timing-function: ease-in-out;
 }
 .ui-refresh-wrapper{
+	-webkit-transform: translate(0px, -54px) scale(1) translateZ(-1px);
 	position: absolute;
 	width: 100%;
-	top: -0.68em;
 	z-index: -1;
 }
 .ui-refresh .ui-refresh-up .ui-refresh-flip {
@@ -381,7 +381,35 @@ form{
 .ui-refresh{
 	overflow: hidden !important;
 }
-
+//footer
+.ui-navigator {
+	border:0;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 999;
+}
+.ui-navigator-list li{
+	position: relative;
+	text-align: center;
+	color: white;
+	font-size: 16px;
+	line-height: 2.8em;
+	background: #4a648d -webkit-gradient(linear,0 0,0 100%,from(#5575a3),to(#3f5476));
+	&.ui-state-hover,&.ui-state-active {
+		background: #394d6a -webkit-gradient(linear,0 0,0 100%,from(#3f5576),to(#33445d));
+		color: #96c0ff;
+		border-left: 1px solid #5d769c;
+		border-right: 1px solid #5d769c;
+	}
+}
+//toobar
+.ui-toolbar {
+	width: 100%;
+	z-index: 9999;
+	top: 0;
+	position: relative;
+}
 /*
 loading
 */
@@ -398,12 +426,11 @@ loading
 
 .loading-wrapper{
 	position:absolute;
-	z-index:10005;
+	z-index:998;
 	top:0;
 	left:0;
 	bottom:0;
 	right:0;
-	background:#fff
 }
 .loading-wrapper *{
 	-webkit-backface-visibility:hidden;

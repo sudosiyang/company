@@ -2,6 +2,8 @@
  var ajaxURL = "ajax/";
  $(function($) {
      window.scrollTo(0, 1); //收起地址栏
+
+     //ajax 类
      var ajax = function(grams, fn) {
          $.ajax({
              url: ajaxURL,
@@ -12,33 +14,31 @@
                  fn(data);
              }
          });
-     }
+     };
 
 
      $('#J_toolbar').toolbar({});
+     $('#f_nav').navigator().on('select', function(el, i) {
+         getData.switchTask(JSON.parse(sessionStorage.task), $(this).find("li a").eq(i).attr('sin'));
+     });
      //初始化page
      var mainSection = $("#Content1").show();
      var demoSection = $("#Content2");
      $("#Content2").css('-webkit-transform', 'translateX(100%)');
      $('.__page__').css('-webkit-transition', 'all .3s ease-in-out');
      //点击菜单，panel
-     $('.ui-toolbar-wrap').on("click", "a", function(e) {
+     $('#J_toolbar').on("click", "a", function(e) {
          var widgetName = $(this).attr('href');
          location.hash = widgetName;
          e.preventDefault();
      });
-     $('.panel a').click(function(e) {
+     $('.panel').on("click", "a", function(e) {
          var widgetName = $(this).attr('href');
-         $('.panel').panel('toggle');
+         $('.panel').panel('close');
          location.hash = widgetName;
          e.preventDefault();
      });
-     $('.return-back').click(function() {
-         mainSection.css('-webkit-transform', 'translateX(0)');
-         demoSection.css('-webkit-transform', 'translateX(100%)');
-         location.hash = '';
-         return false;
-     });
+
 
      //初始化panel，panel是iscroll
      $('.panel').css({
@@ -51,7 +51,7 @@
          swipeClose: false,
          position: 'left'
      });
-     $('.menu').on('click', function(event) {
+     $('#J_toolbar').on('click', '.menu', function(event) {
          $('.panel').panel('toggle', 'push');
          return false;
      });
@@ -59,7 +59,7 @@
      $("#Content1").on('swipeRight', function(event) {
          $('.panel').panel('open', 'push');
      });
-     $(".panel").on('swipeLeft', function(event) {
+     $(".panel,#Content1").on('swipeLeft', function(event) {
          $('.panel').panel('close', 'push');
      });
 
@@ -90,23 +90,11 @@
                          localStorage.setItem("login", JSON.stringify(_data));
                          sessionStorage.setItem("user", JSON.stringify(data));
                          //拉取自己的数据
-                         _this.getTask();
+                         getData.getTask();
+
                      }
                  }
                  ajax(_data, succeed);
-             },
-             getTask: function() {
-                 if (sessionStorage.user) {
-                     var user = JSON.parse(sessionStorage.user);
-                     var data = {
-                         req: "getTask",
-                         uid: user.uid
-                     }
-                     var ansyTask = function(data) {
-                         console.log(data);
-                     }
-                     ajax(data, ansyTask);
-                 }
              }
          }
      })();
@@ -114,6 +102,7 @@
      Login.checkLogin();
      $("#login").click(function(event) {
          login_in.open();
+         $('.panel').panel('close', 'push');
          return false;
      });
      $("._login").on('click', function(event) {
@@ -135,6 +124,7 @@
      });
      $(".about").click(function(event) {
          about.open();
+         $('.panel').panel('close', 'push');
          return false;
      });
 
@@ -181,18 +171,18 @@
                  $("#Content2 .loading-wrapper").show();
                  $(".a_page").empty().html('<div class="nav"></div>');
                  var contents = [];
-                 for (i = 0; i < data.length; i++) {
+                 $.each(data, function(i) {
                      var obj = {};
                      var html = "<div class='scroller'><ul>";
                      obj.title = data[i].d_name;
-                     for (var j = 0; j < data[i].users.length; j++) {
+                     $.each(data[i].users, function(j) {
                          var str = '<li><a href="#user_<%=id%>"><img src="<%=photo%>"><span><%=u_name%></span></a></li>';
                          html += $.parseTpl(str, data[i].users[j]);
-                     };
+                     });
                      html += "</ul></div>";
                      obj.content = html;
                      contents.push(obj);
-                 }
+                 });
                  window.scrollTo(0, 1); //收起地址栏
                  $(".nav").tabs({
                      items: contents,
@@ -212,18 +202,28 @@
              },
              createCollage: function(data) {
                  $("#Content2 .loading-wrapper").show();
-                 var html = "";
-                 for (var i = data.length - 1; i >= 0; i--) {
-                     var str = '<li><a href="#user_<%=id%>" uid="<%=id%>"><img src="<%=u_photo%>"><span><%=u_name%></span><span><%=d_name%></span></a></li>';
-                     html += $.parseTpl(str, data[i]);
-                 };
+                 var createDatalist = function(data) {
+                     var html = "";
+                     $.each(data, function(i) {
+                         var str = '<li><a href="#user_<%=id%>" uid="<%=id%>"><img src="<%=u_photo%>"><span><%=u_name%></span><span><%=d_name%></span></a></li>';
+                         html += $.parseTpl(str, data[i]);
+                     });
+                     return html;
+                 }
                  $(".a_page").empty().html("<div class='ui-refresh'><div class='ui-refresh-up'></div><ul class='data-list'></ul></div>");
-                 $(".data-list").html(html);
+                 $(".a_page .data-list").empty().html(createDatalist(data));
                  /*组件初始化js begin*/
-                 $('.ui-refresh').css('height', $(window).height()+10).refresh({
-                     topOffset:54,
-                     load: function() {
-                         
+                 $('.a_page .ui-refresh').css('height', $(window).height() + 10).refresh({
+                     load: function(dir, type) {
+                         var me = this;
+                         $.getJSON(ajaxURL + "?req=collage", function(data) {
+                             var $list = $('.a_page .data-list');
+                             var html = createDatalist(data);
+                             $list[dir == 'up' ? 'html' : 'append'](html);
+                             me.afterDataLoading(dir);
+                             sessionStorage.setItem("collage", JSON.stringify(data));
+                         });
+
                      }
                  });
                  /*组件初始化js end*/
@@ -237,6 +237,68 @@
                  $(".a_page").empty().html('<div class="nav"></div>');
                  $(".nav").html(templ);
                  $("#Content2 .loading-wrapper").hide();
+             },
+             getTask: function() {
+                 var _this = this;
+                 if (sessionStorage.user) {
+                     var user = JSON.parse(sessionStorage.user);
+                     var data = {
+                         req: "getTask",
+                         uid: user.uid
+                     }
+                     var succeed = function(data) {
+                         var Task = _this.taskAnsy(data);
+                         _this.switchTask(Task, 'uncomplete');
+                     }
+                     ajax(data, succeed);
+                 }
+             },
+             taskAnsy: function(data) {
+                 var array1 = [],
+                     array2 = [],
+                     Task = {};
+                 $.each(data, function(i) {
+                     if (data[i].complete != "0") {
+                         array1.push(data[i]);
+                     } else {
+                         array2.push(data[i]);
+                     }
+                 });
+                 Task = {
+                     complete: array1,
+                     uncomplete: array2,
+                     all: data
+                 }
+                 sessionStorage.task = JSON.stringify(Task);
+                 return Task;
+             },
+             switchTask: function(Task, index) {
+                 $("#Content1 .loading-wrapper").hide();
+                 var createDatalist = function(data) {
+                     var html = "";
+                     $.each(data, function(i) {
+                         var str = '<li><a href="#task_<%=t_id%>" tid="<%=t_id%>"><%=title%></a></li>';
+                         html += $.parseTpl(str, data[i]);
+                     });
+                     return html;
+                 }
+                 $(".m_page").empty().html("<div class='ui-refresh'><div class='ui-refresh-up'></div><ul class='data-list'></ul></div>");
+                 $(".m_page .data-list").empty().html(createDatalist(Task[index]));
+                 /*组件初始化js begin*/
+                 $('.m_page .ui-refresh').css('height', $(window).height() - $("#f_nav").height() + 10).refresh({
+                     load: function(dir, type) {
+                         var me = this;
+                         $.getJSON(ajaxURL + "?req=collage", function(data) {
+                             var $list = $('.m_page .data-list');
+                             var html = createDatalist(data);
+                             $list[dir == 'up' ? 'html' : 'append'](html);
+                             me.afterDataLoading(dir);
+                             sessionStorage.setItem("collage", JSON.stringify(data));
+                         });
+                     }
+                 });
+                 /*组件初始化js end*/
+                 $("#Content1 .loading-wrapper").hide();
              }
          }
      })();
@@ -259,8 +321,10 @@
      var updatePage = function() {
          var widgetName = location.hash.replace('#', '');
          if (widgetName === '' || !SecondPage[widgetName]) {
-             mainSection.css('-webkit-transform', 'translateX(0)');
              demoSection.css('-webkit-transform', 'translateX(100%)');
+             setTimeout(function() {
+                 mainSection.css('-webkit-transform', 'translateX(0)');
+             }, 0);
          } else {
              mainSection.css('-webkit-transform', 'translateX(-100%)');
              demoSection.show();

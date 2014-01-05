@@ -49,10 +49,13 @@ form .links .forgive{float:right}
 .ui-refresh li span+span{line-height:11px;font-size:.7em;color:#b2b2b2}
 .ui-refresh .ui-refresh-up span{margin:0}
 .ui-refresh .ui-refresh-up .ui-refresh-icon,.ui-refresh .ui-refresh-down .ui-refresh-icon{display:inline-block;width:25px;height:25px;vertical-align:middle;background:url('r-flip.png') no-repeat;-webkit-background-size:25px 25px;-webkit-transition-property:-webkit-transform;-webkit-transition-duration:400ms;-webkit-transition-timing-function:ease-in-out}
-.ui-refresh-wrapper{position:absolute;width:100%;top:-0.68em;z-index:-1}
+.ui-refresh-wrapper{-webkit-transform:translate(0, -54px) scale(1) translateZ(-1px);position:absolute;width:100%;z-index:-1}
 .ui-refresh .ui-refresh-up .ui-refresh-flip{-webkit-transform:rotate(180deg) translateZ(0)}
 .ui-refresh{overflow:hidden !important}
-@-webkit-keyframes loading-frames{0%{transform:rotate(0deg);-webkit-transform:rotate(0deg)} 100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.loading-wrapper{position:absolute;z-index:10005;top:0;left:0;bottom:0;right:0;background:#fff}
+.ui-navigator{border:0;position:fixed;bottom:0;width:100%;z-index:999}
+.ui-navigator-list li{position:relative;text-align:center;color:#fff;font-size:16px;line-height:2.8em;background:#4a648d -webkit-gradient(linear, 0 0, 0 100%, from(#5575a3), to(#3f5476))}.ui-navigator-list li.ui-state-hover,.ui-navigator-list li.ui-state-active{background:#394d6a -webkit-gradient(linear, 0 0, 0 100%, from(#3f5576), to(#33445d));color:#96c0ff;border-left:1px solid #5d769c;border-right:1px solid #5d769c}
+.ui-toolbar{width:100%;z-index:9999;top:0;position:relative}
+@-webkit-keyframes loading-frames{0%{transform:rotate(0deg);-webkit-transform:rotate(0deg)} 100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.loading-wrapper{position:absolute;z-index:998;top:0;left:0;bottom:0;right:0}
 .loading-wrapper *{-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .loading-wrapper .loading-container{position:absolute;width:124px;height:86px;margin:0 -62px;left:50%;top:75px}
 .loading-wrapper .loading-container .loading-icon{width:50px;margin:0 auto}
