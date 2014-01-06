@@ -31,5 +31,9 @@
 		$todo = new Todo();
 		echo json_encode($todo->getCollage());
 	}
+	function complete($array){
+		$todo = new Todo();
+		echo json_encode($todo->complete($array->t_id));
+	}
 	call_user_func_array ( $get->req, array ($get) );
 ?>

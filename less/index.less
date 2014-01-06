@@ -314,11 +314,44 @@ form{
 		padding: 0;
 	}
 }
+
 .ui-refresh,.scroller{
+	._task{
+		span{
+			position: absolute;
+			right: -5em;
+			top: 0;
+			width: 5em;
+			background: #7e8283;
+			box-shadow: 0 0 6px #3a3a3a inset;
+			color:#fff;
+			line-height: 56px;
+			text-align: center;
+			z-index: -1;
+		}
+		b{
+			display: inline-block;
+			width: 21px;
+			height: 15px;
+			top: 2px;
+			position: relative;
+			background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAPCAYAAAF1thSHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAuNJREFUeNpi3Lx6JgMI+ISkMTAxM7PMNDB1+A8SAAggRqiMOMPH92/+//79yxcggGAiYGDvGvKfl1+IkQEk+OnD239AcHvburkM////ZwAIIBSVPDz8k1lgHF4+wX/2bqGMDPduXfp/6sj2DUBt/8+d3MvA8vzpfUYrB7//j+7fYHz66A4DQAChmIEEGEVEpf7pmdgzvHn19CHYXKCrl7Kxscd8//71PwcH12MDM0cZETFphp8/vonJKWq8Zti3fTnvl88f/oMA0CP///39C8Kzblw+xbB17Wywk1m+fvn0ef+OlYx8/EIM2gbWT//9/SN94fQBhp8/v8PtBgggXG5iAFp/m4WVTYsFmyTQfUs09SxUBIXFf2EoYGJiClVS04uWkVMFcZcwgUzj5OLpAOpiYGRklJGWVVmlrK4P9Djjg8cPb8WyAI35qWdky/Dm9TObt6+eWWvomjGwsLD+ff3yieLNK6cZWMQkZHfx8Aq4AbG1rLwaA9BhDJ8/vmO5euEY2DdMwLB3v3/nSsN/hv9gyR/fv4pduXCUARhGYDexAAOJAWhU448f344qquiw3bhy6vXb18/hjgYIMJzhgANwsrKy7RcSkTAXFJZg+Pv3z/F3b56HshCrm5mJuQaY1Jql5VQYxCXlGTi5eRmAcWb5/duXWIKGAIPQDBic+4EauUAG8AkIA8OcmeH/v3/HgAY4cvHwgSOFGRiEy4CSYcDgBUmufv/2ZdznT++B8cN0UEhE0kRGQY1BWESSgZWNHWTux18/f9i+ff3s8pNHtxlMrdwZWLi4eY8CI8tcCmgLMM2DFIUCk2Tol0/vIfmAT5AB6BKQi0BhUAzMNH2ghP7y+UNQDEBD/tdPi/fvXrFycHLPBNqcyMXFywA0GIxhAOi6fd++fvYE5phfzx7fZQBZ8PffX7g8OPqAueM30AtJwAyXJCYpFw/Es4BsNmCyAjndBuj0K08e3mJ49+YFA0g9OgAAjStFpamcmmsAAAAASUVORK5CYII=) no-repeat;
+		}
+	}
 	li {
 		position: relative;
+		transition: all 0.3s;
 		height: 55px;
 		border-bottom: solid 1px #CCC;
+		.rank_2{
+			border-left: solid 5px rgba(255,138,34,1);
+		}
+		.rank_1{
+			border-left: solid 5px #00a9ff;
+		}
+		.rank_0{
+			border-left: solid 5px #3BC30B;
+		}
 	}
 	span{
 		margin-left: 55px;
@@ -409,6 +442,15 @@ form{
 	z-index: 9999;
 	top: 0;
 	position: relative;
+}
+//alert
+.mask{
+	position: absolute;
+	background: rgba(94, 94, 94, 0.9);
+	color: #fff;
+	padding: 9px;
+	display: none;
+	border-radius: 5px;
 }
 /*
 loading

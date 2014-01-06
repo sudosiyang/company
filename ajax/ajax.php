@@ -74,5 +74,10 @@
 			}
 			return $result;
 		}
+		//完成任务
+		function complete($t_id){
+			$sql='UPDATE t_task SET complete =1 WHERE t_id = '.$t_id;
+			return $this->update($sql); 
+		}
 	}
 ?>

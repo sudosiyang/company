@@ -1,4 +1,4 @@
- var version = "v1.1.5";
+ var version = "v1.4.5";
  var ajaxURL = "ajax/";
  $(function($) {
      window.scrollTo(0, 1); //收起地址栏
@@ -15,12 +15,46 @@
              }
          });
      };
-
+     var alerts = function(text, time) {
+         $(".mask").text(text).show().css({
+             "top": $(window).height() / 2 - 10,
+             "left": screen.width / 2 - 73
+         });
+         setTimeout(function() {
+             $(".mask").hide();
+         }, time);
+     }
 
      $('#J_toolbar').toolbar({});
      $('#f_nav').navigator().on('select', function(el, i) {
-         getData.switchTask(JSON.parse(sessionStorage.task), $(this).find("li a").eq(i).attr('sin'));
+         getData.switchTask(JSON.parse(sessionStorage.task), i);
      });
+     $("._t-list").on("click", "li a", function(e) {
+         var index = $(this).attr("href").replace("#", "");
+         getData.switchTask(JSON.parse(sessionStorage.task), index);
+         $('#f_nav').navigator("switchTo", index);
+         e.preventDefault();
+     });
+     $(".cont").on("swipeLeft", "._task a.c_0", function() {
+         $(this).parent().css({
+             "-webkit-transform": "translate3d(-5em, 0px, 0px)"
+         }).attr('open', 'true');
+     }).on("swipeRight", "._task a.c_0", function(e) {
+         $(this).parent().css({
+             "-webkit-transform": "translate3d(0px, 0px, 0px)"
+         })
+     }).on("click", "._task span", function() {
+         var $_this = $(this);
+         var data = {
+             'req': "complete",
+             't_id': $(this).prev().attr("tid")
+         }
+         var succeed = function(data) {
+             $_this.parent().hide("1000");
+             alerts("恭喜完成一个任务",2000);
+         }
+         ajax(data, succeed);
+     });;
      //初始化page
      var mainSection = $("#Content1").show();
      var demoSection = $("#Content2");
@@ -57,6 +91,10 @@
      });
      /*左右滑动调出菜单*/
      $("#Content1").on('swipeRight', function(event) {
+         if ($(event.target).parent().attr("open") == "true") {
+             $(event.target).parent().attr("open", "");
+             return;
+         }
          $('.panel').panel('open', 'push');
      });
      $(".panel,#Content1").on('swipeLeft', function(event) {
@@ -248,7 +286,7 @@
                      }
                      var succeed = function(data) {
                          var Task = _this.taskAnsy(data);
-                         _this.switchTask(Task, 'uncomplete');
+                         _this.switchTask(Task, 0);
                      }
                      ajax(data, succeed);
                  }
@@ -273,27 +311,29 @@
                  return Task;
              },
              switchTask: function(Task, index) {
+                 var _this = this,
+                     list = ["uncomplete", "complete", "all"];
                  $("#Content1 .loading-wrapper").hide();
                  var createDatalist = function(data) {
                      var html = "";
                      $.each(data, function(i) {
-                         var str = '<li><a href="#task_<%=t_id%>" tid="<%=t_id%>"><%=title%></a></li>';
+                         var str = '<li><a href="#task_<%=t_id%>" class="rank_<%=rank%> c_<%=complete%>" tid="<%=t_id%>"><%=title%></a><span><b></b>完成</span></li>';
                          html += $.parseTpl(str, data[i]);
                      });
                      return html;
                  }
-                 $(".m_page").empty().html("<div class='ui-refresh'><div class='ui-refresh-up'></div><ul class='data-list'></ul></div>");
-                 $(".m_page .data-list").empty().html(createDatalist(Task[index]));
+                 $(".m_page").empty().html("<div class='ui-refresh'><div class='ui-refresh-up'></div><ul class='data-list _task'></ul></div>");
+                 $(".m_page .data-list").empty().html(createDatalist(Task[list[index]]));
                  /*组件初始化js begin*/
                  $('.m_page .ui-refresh').css('height', $(window).height() - $("#f_nav").height() + 10).refresh({
                      load: function(dir, type) {
                          var me = this;
-                         $.getJSON(ajaxURL + "?req=collage", function(data) {
-                             var $list = $('.m_page .data-list');
-                             var html = createDatalist(data);
-                             $list[dir == 'up' ? 'html' : 'append'](html);
+                         $.getJSON(ajaxURL + "?req=getTask&uid=" + JSON.parse(sessionStorage.user).uid, function(data) {
+                             var Data = _this.taskAnsy(data);
+                             sessionStorage.setItem("task", JSON.stringify(Data));
+                             _this.switchTask(Data, $("#f_nav").navigator("getIndex"));
                              me.afterDataLoading(dir);
-                             sessionStorage.setItem("collage", JSON.stringify(data));
+
                          });
                      }
                  });
