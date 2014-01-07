@@ -79,5 +79,10 @@
 			$sql='UPDATE t_task SET complete =1 WHERE t_id = '.$t_id;
 			return $this->update($sql); 
 		}
+		//发布任务
+		function publish($u_id,$title,$details,$p_id){
+			$sql = "INSERT INTO t_task ( u_id, title, details, p_id) VALUES ($u_id,'$title','$details',$p_id)";
+			return $this->insert($sql);
+		}
 	}
 ?>

@@ -35,5 +35,9 @@
 		$todo = new Todo();
 		echo json_encode($todo->complete($array->t_id));
 	}
+	function publish($array){
+		$todo = new Todo();
+		echo json_encode($todo->publish($array->u_id,$array->title,$array->details,$array->p_id));
+	}
 	call_user_func_array ( $get->req, array ($get) );
 ?>
