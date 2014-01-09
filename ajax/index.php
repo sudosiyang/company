@@ -19,6 +19,10 @@
 		$todo = new Todo();
 	  	echo json_encode($todo->login($array->name,$array->pwd));
 	}
+	function a_login($array){
+		$todo = new Todo();
+	  	echo json_encode($todo->a_login($array->name,$array->pwd));
+	}
 	function department($array){
 		$todo = new Todo();
 		echo json_encode($todo->department());

@@ -20,7 +20,7 @@ class DataBase {
 	var $affected_rows; // 传回query命令所影响的列数目
 	// INSERT、UPDATE 或 DELETE 所影响的列 (row) 数目。
 	// delete 如果不带where，那么则返回0
-	function __construct($host = "222.222.194.134", $user = "root", $pwd = "ZAQ@123", $dbname = "todos", $debug = true) {
+	function __construct($host = "192.168.1.10", $user = "root", $pwd = "ZAQ@123", $dbname = "todos", $debug = true) {
 		$this->host = $host;
 		$this->user = $user;
 		$this->pwd = $pwd;

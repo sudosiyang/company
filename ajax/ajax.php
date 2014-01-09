@@ -1,5 +1,6 @@
 <?php
 	include_once 'DataBase.php';
+	date_default_timezone_set('Asia/Shanghai'); 
 	class Todo extends DataBase {
 		function login($name, $pwd) {
 			$sql = "select * from t_user where phonenum='$name'";
@@ -12,6 +13,17 @@
 				return array('result'=>true,'name' => $userinfo['u_name'],'uid'=>$result ['id'],'photo'=> $userinfo['u_photo']);
 			} else{
 				return array('result'=>false,'pwd' => false );
+			}
+		}
+		function a_login($name, $pwd) {
+			if($name=="18600753716"){
+				if($pwd=="111111"){
+					return array('result'=>true,'name' => "张玺辉",'uid'=>'0','photo'=> "");
+				}else{
+					return array('result'=>false,'pwd' => false );
+				}
+			}else{
+				return array('result'=>false,'name' => false );
 			}
 		}
 		//  获取用户名
@@ -59,6 +71,7 @@
 		//拉取任务
 		function getTask($uid){
 			$sql = "SELECT * FROM t_task WHERE u_id = $uid ORDER BY rank DESC";
+			$result=[];
 			$this->execute ( $sql );
 			while ( $arr = $this->fetchAssoc()) {
 				$result[]=$arr;
@@ -76,7 +89,7 @@
 		}
 		//完成任务
 		function complete($t_id){
-			$sql='UPDATE t_task SET complete =1 WHERE t_id = '.$t_id;
+			$sql='UPDATE t_task SET complete =1,finish_date="'.date('Y-m-d H:i').'" WHERE t_id = '.$t_id;
 			return $this->update($sql); 
 		}
 		//发布任务

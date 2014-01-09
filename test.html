@@ -3,146 +3,143 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<script type="text/javascript" src="js/test/zepto.js"></script>
-	<script type="text/javascript" src="js/test/gmu.js"></script>
-	<script type="text/javascript" src="js/test/iscroll.js"></script>
-	<script type="text/javascript" src="js/test/event.js"></script>
-	<script type="text/javascript" src="js/test/widget.js"></script>
-	<script type="text/javascript" src="js/test/refresh.js"></script>
-	<script type="text/javascript" src="js/test/$iscroll.js"></script>
-
+	<script type="text/javascript" src="js/zepto.js"></script>
+	<script type="text/javascript" src="js/gmu.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/gmu.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<title>TODOS</title>
 </head>
 <body>
-
-	<div class="ui-refresh">
-		<div class="ui-refresh-up"></div>
-		<!--setup方式带有class为ui-refresh-down或ui-refresh-up的元素必须加上，用于放refresh按钮-->
-		<ul class="data-list">
-			<li>
-				<a href="#user_4" uid="4">
-					<img src="user/12.png">
-					<span>马志磊</span>
-					<span>运营销售</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_8" uid="8">
-					<img src="user/11.png">
-					<span>陈穗嘉</span>
-					<span>后端核心</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_6" uid="6">
-					<img src="user/5.png">
-					<span>董文龙</span>
-					<span>数据服务</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_1" uid="1">
-					<img src="user/14.png">
-					<span>苏思洋</span>
-					<span>前端设计</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_7" uid="7">
-					<img src="user/1.png">
-					<span>胡永乐</span>
-					<span>后端核心</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_5" uid="5">
-					<img src="user/4.png">
-					<span>田斌</span>
-					<span>后端核心</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_13" uid="13">
-					<img src="user/3.png">
-					<span>王磊</span>
-					<span>数据服务</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_3" uid="3">
-					<img src="user/6.png">
-					<span>曹庆森</span>
-					<span>数据服务</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_11" uid="11">
-					<img src="user/7.png">
-					<span>徐德艳</span>
-					<span>前端设计</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_10" uid="10">
-					<img src="user/8.png">
-					<span>张力</span>
-					<span>运营销售</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_2" uid="2">
-					<img src="user/13.png">
-					<span>张中华</span>
-					<span>数据服务</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_9" uid="9">
-					<img src="user/10.png">
-					<span>吴迪</span>
-					<span>前端设计</span>
-				</a>
-			</li>
-			<li>
-				<a href="#user_12" uid="12">
-					<img src="user/2.png">
-					<span>刘光伦</span>
-					<span>后端核心</span>
-				</a>
-			</li>
-		</ul>
-		<div class="ui-refresh-down"></div>
-		<!--setup方式带有class为ui-refresh-down或ui-refresh-up的元素必须加上，用于放refresh按钮-->
-	</div>
-
-	<script type="text/javascript">
-	
-    $(function () {
-        /*组件初始化js begin*/
-            $('.ui-refresh').css('height', window.innerHeight - ($('header').height() || 42)).refresh({
-                load: function (dir, type) {
-                    var me = this;
-                    $.getJSON('../../data/refresh.php', function (data) {
-                        var $list = $('.data-list'),
-                            html = (function (data) {      //数据渲染
-                                var liArr = [];
-                                $.each(data, function () {
-                                    liArr.push(this.html);
-                                });
-                                return liArr.join('');
-                            })(data);
-
-                        $list[dir == 'up' ? 'prepend' : 'append'](html);
-                        me.afterDataLoading(dir);    //数据加载完成后改变状态
-                    });
-                }
-            });
-        /*组件初始化js end*/
-    })
-
-	
-	</script>
+	<section class="__page__" id="LOGIN" style="display:-webkit-box">
+		<form action="">
+			<div class="l_title">
+				<img src="images/l_logo.png" alt=""></div>
+			<input type="text" class="_name" placeholder="请输入账号">
+			<input type="password" class="_pwd" placeholder="请输入密码">
+			<input type="submit" value="登 录" class="_login">
+			<div class="links">
+				<a href="#" class="register">注册账号</a>
+				<a href="#" class="forgive">忘记密码</a>
+			</div>
+		</form>
+	</section>
+	<section id="Content1" class="__page__">
+		<div id="page">
+			<div class="cont" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+				<div id="J_toolbar" class="tool-bar">
+					<a href="##" class="btn_1 menu"></a>
+					<h1 class="ui-toolbar-title">我的任务</h1>
+				</div>
+				<div class="m_page"></div>
+				<div class="loading-wrapper" style="top: 89px">
+					<div class="loading-container">
+						<div class="loading-icon">
+							<div class="loading-round"></div>
+							<div class="loading-inner"></div>
+						</div>
+						<span class="loading-text">加载中,请稍后...</span>
+					</div>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="task row" id="List">
+					<h3>任务</h3>
+					<ul class="_t-list">
+						<li>
+							<a href="#0">未完成</a>
+						</li>
+						<li>
+							<a href="#1">已完成</a>
+						</li>
+						<li>
+							<a href="#2">全部任务</a>
+						</li>
+					</ul>
+					<h3>统计</h3>
+					<ul>
+						<li>
+							<a href="department">
+								<span class="department"></span>
+								部门
+							</a>
+						</li>
+						<li>
+							<a href="rank">
+								<span class="rank"></span>
+								榜单
+							</a>
+						</li>
+						<li>
+							<a href="collage">
+								<span class="collage"></span>
+								同事
+							</a>
+						</li>
+					</ul>
+					<h3>统计</h3>
+					<ul>
+						<li>
+							<a href="tell">
+								<span class="tell"></span>
+								反馈
+							</a>
+						</li>
+						<li>
+							<a href="##" class="about">
+								<span class="about"></span>
+								关于
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="login row clearfix">
+					<img src="images/photo.jpg" alt="">
+					<span>
+						<a href="#" id="login">请您登录或注册</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="Content2" class="__page__">
+		<div id="page">
+			<div class="cont " style="-webkit-transform: translate3d(0px, 0px, 0px);">
+				<div id="J_toolbar2" class="tool-bar ui-toolbar">
+					<div class="ui-toolbar-wrap">
+						<div class="ui-toolbar-left">
+							<a href="#" class="btn_1 return-back ui-toolbar-button">返回</a>
+						</div>
+						<h1 class="ui-toolbar-title">同事</h1>
+						<div class="ui-toolbar-right"></div>
+					</div>
+				</div>
+				<div class="a_page"></div>
+			</div>
+			<div id="f_nav">
+				<ul>
+					<li>
+						<a href="javascript:;" sin="uncomplete">未完成</a>
+					</li>
+					<li>
+						<a href="javascript:;" sin="complete">已完成</a>
+					</li>
+					<li>
+						<a href="javascript:;" sin="all">全部任务</a>
+					</li>
+				</ul>
+			</div>
+			<div class="loading-wrapper" style="top: 89px; height: 1098px;">
+				<div class="loading-container">
+					<div class="loading-icon">
+						<div class="loading-round"></div>
+						<div class="loading-inner"></div>
+					</div>
+					<span class="loading-text">加载中,请稍后...</span>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script type="text/javascript" src="js/admin.js"></script>
 </body>
 </html>

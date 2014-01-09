@@ -373,6 +373,9 @@ $(function () {
 
     // 负责移除className.
     function dismiss() {
+        if(!$el){
+            return ;
+        }
         var cls = $el.attr( 'hl-cls' );
 
         clearTimeout( timer );
@@ -412,6 +415,7 @@ $(function () {
                 if ( $el ) {
                     $el.attr( 'hl-cls', className );
                     timer = setTimeout( function() {
+                        if($el)
                         $el.addClass( className );
                     }, 100 );
                     $doc.on( 'touchend touchmove touchcancel', dismiss );
