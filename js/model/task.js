@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 	var tool = require('./tool');
 	var ajaxURL = "ajax/";
 	module.exports = {
-		init:function(){
+		init: function() {
 			eventInit();
 			getTask();
 		},
@@ -20,7 +20,7 @@ define(function(require, exports, module) {
 					tool.alerts("发布成功", 2000);
 					setTimeout(function() {
 						$(".return-back").trigger("click");
-						_this.getTask();
+						getTask();
 					}, 1000)
 				}
 				tool.ajax(data, succeed);
@@ -117,20 +117,25 @@ define(function(require, exports, module) {
 			}
 			tool.ajax(data, succeed);
 		});
+		//任务发布
+		$("#J_toolbar2").on('click', '.bt-ok', function(event) {
+			module.exports.taskPublish();
+			event.preventDefault();
+		});
 	}
-	var getTask =function() {
-			var _this = this;
-			if (sessionStorage.user) {
-				var user = JSON.parse(sessionStorage.user);
-				var data = {
-					req: "getTask",
-					uid: user.uid
-				}
-				var succeed = function(data) {
-					var Task = taskAnsy(data);
-					module.exports.switchTask(Task, 0);
-				}
-				tool.ajax(data, succeed);
+	var getTask = function() {
+		var _this = this;
+		if (sessionStorage.user) {
+			var user = JSON.parse(sessionStorage.user);
+			var data = {
+				req: "getTask",
+				uid: user.uid
 			}
+			var succeed = function(data) {
+				var Task = taskAnsy(data);
+				module.exports.switchTask(Task, 0);
+			}
+			tool.ajax(data, succeed);
 		}
+	}
 });

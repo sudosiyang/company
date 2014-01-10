@@ -1,6 +1,10 @@
 define(function(require, exports, module) {
 	var Task = require('./task');
 	var SecondPage = require('./app');
+	var createTask = require('./publishTask');
+	var department =require('./department');
+	var collage=require('./collage?999');
+	var selectExec=require('./select');
 
 	var version="1.8.1";
 	var mainSection = $("#Content1");

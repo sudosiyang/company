@@ -23,7 +23,7 @@ define(function(require, exports, module) {
 			}
 			tool.ajax(data, succeed);
 		} else {
-			this.selectExec(JSON.parse(collage));
+			selectExec(JSON.parse(collage));
 		}
 	}
 	var selectExec = function(data) {

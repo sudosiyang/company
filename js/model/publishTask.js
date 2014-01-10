@@ -12,11 +12,6 @@ define(function(require, exports, module) {
 				select.init();
 				return false;
 			});
-			//任务发布
-			$("#J_toolbar2").on('click', '.bt-ok', function(event) {
-				Task.taskPublish();
-				event.preventDefault();
-			});
 		}
 	}
 	var createTask = function(templ) {

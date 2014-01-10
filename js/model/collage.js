@@ -13,7 +13,7 @@ define(function(require, exports, module) {
 				req: "collage"
 			};
 			var succeed = function(data) {
-				_this.createCollage(data);
+				createCollage(data);
 			}
 			tool.ajax(data, succeed);
 		} else {
