@@ -1,4 +1,5 @@
 define(function(require, exports, module) {
+	var tool = require('./tool');
 	module.exports = {
 		init:function(){
 			department();
@@ -12,7 +13,7 @@ define(function(require, exports, module) {
 				req: "department"
 			};
 			var succeed = function(data) {
-				_this.createTab(data);
+				createTab(data);
 			}
 			tool.ajax(data, succeed);
 		} else {

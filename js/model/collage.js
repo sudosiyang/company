@@ -17,7 +17,7 @@ define(function(require, exports, module) {
 			}
 			tool.ajax(data, succeed);
 		} else {
-			this.createCollage(JSON.parse(collage));
+			createCollage(JSON.parse(collage));
 		}
 	};
 

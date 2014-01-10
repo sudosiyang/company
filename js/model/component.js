@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var SecondPage = require('./app');
 	var createTask = require('./publishTask');
 	var department =require('./department');
-	var collage=require('./collage?999');
+	var collage=require('./collage');
 	var selectExec=require('./select');
 
 	var version="1.8.1";
@@ -84,7 +84,7 @@ define(function(require, exports, module) {
 		 */
 		$("._t-list").on("click", "li a", function(e) {
 			var index = $(this).attr("href").replace("#", "");
-			$foot_tab.navigator("switchTo", index);
+			$('#f_nav').navigator("switchTo", index);
 			e.preventDefault();
 		});
 
