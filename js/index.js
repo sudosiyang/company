@@ -2,9 +2,7 @@
      var $ = require('zepto');
      var gmu = require('./gmu');
      var Login = require("./model/login");
-     document.ready = function() {
          window.scrollTo(0, 1); //收起地址栏
          //确认是否登录过
          Login.init().checkLogin();
-     }
  })
