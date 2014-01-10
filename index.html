@@ -3,9 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<script type="text/javascript" src="js/zepto.js"></script>
-	<script type="text/javascript" src="js/gmu.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/gmu.css">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<title>TODOS</title>
@@ -13,7 +10,8 @@
 <body>
 	<section class="__page__" id="LOGIN" style="display:-webkit-box">
 		<form action="">
-			<div class="l_title"><img src="images/l_logo.png" alt=""></div>
+			<div class="l_title">
+				<img src="images/l_logo.png" alt=""></div>
 			<input type="text" class="_name" placeholder="请输入账号">
 			<input type="password" class="_pwd" placeholder="请输入密码">
 			<input type="submit" value="登 录" class="_login">
@@ -117,7 +115,7 @@
 	</section>
 	<section id="Content2" class="__page__">
 		<div id="page">
-			<div class="cont">
+			<div class="cont" style="-webkit-transform: translate3d(0px, 0px, 0px);">
 				<div id="J_toolbar2" class="tool-bar"></div>
 				<div class="a_page"></div>
 			</div>
@@ -134,7 +132,7 @@
 	</section>
 	<section id="Content3" class="__page__" style="-webkit-transform: translate3d(0px, 100%, 0px);">
 		<div id="page">
-			<div class="cont">
+			<div class="cont" style="-webkit-transform: translate3d(0px, 0px, 0px);">
 				<div id="J_toolbar3" class="tool-bar ui-toolbar">
 					<div class="ui-toolbar-wrap">
 						<div class="ui-toolbar-left">
@@ -160,6 +158,12 @@
 		</div>
 	</section>
 	<div class="mask"></div>
-	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/sea.js"></script>
+	<script type="text/javascript">
+		  seajs.config({
+		    base: "./js/",
+		  });
+		  seajs.use("./js/index");
+	</script>
 </body>
 </html>

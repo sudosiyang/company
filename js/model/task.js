@@ -1,23 +1,13 @@
 define(function(require, exports, module) {
 	var tool = require('./tool');
+	var ajaxURL = "ajax/";
 	module.exports = {
-		getTask: function() {
-			var _this = this;
-			if (sessionStorage.user) {
-				var user = JSON.parse(sessionStorage.user);
-				var data = {
-					req: "getTask",
-					uid: user.uid
-				}
-				var succeed = function(data) {
-					var Task = _this.taskAnsy(data);
-					_this.switchTask(Task, 0);
-				}
-				tool.ajax(data, succeed);
-			}
+		init:function(){
+			eventInit();
+			getTask();
 		},
 		taskPublish: function() {
-			var _this=this;
+			var _this = this;
 			if ($(".a_page input,.a_page textarea").val() && $(".t_exec a").attr("uid")) {
 				var data = {
 					req: "publish",
@@ -37,26 +27,6 @@ define(function(require, exports, module) {
 			} else {
 				tool.alerts("字段不能为空", 2000);
 			}
-		},
-		taskAnsy: function(data) {
-			var array1 = [],
-				array2 = [],
-				Task = {};
-			if (!data) return Task;
-			$.each(data, function(i) {
-				if (data[i].complete != "0") {
-					array1.push(data[i]);
-				} else {
-					array2.push(data[i]);
-				}
-			});
-			Task = {
-				complete: array1,
-				uncomplete: array2,
-				all: data
-			}
-			sessionStorage.task = JSON.stringify(Task);
-			return Task;
 		},
 		switchTask: function(Task, index) {
 			var _this = this,
@@ -79,7 +49,7 @@ define(function(require, exports, module) {
 				load: function(dir, type) {
 					var me = this;
 					$.getJSON(ajaxURL + "?req=getTask&uid=" + JSON.parse(sessionStorage.user).uid, function(data) {
-						var Data = _this.taskAnsy(data);
+						var Data = taskAnsy(data);
 						sessionStorage.setItem("task", JSON.stringify(Data));
 						_this.switchTask(Data, $("#f_nav").navigator("getIndex"));
 						me.afterDataLoading(dir);
@@ -96,4 +66,71 @@ define(function(require, exports, module) {
 			$("#Content1 .loading-wrapper").hide();
 		}
 	}
+	/**
+	 *任务分析
+	 **/
+	var taskAnsy = function(data) {
+		var array1 = [],
+			array2 = [],
+			Task = {};
+		if (!data) return Task;
+		$.each(data, function(i) {
+			if (data[i].complete != "0") {
+				array1.push(data[i]);
+			} else {
+				array2.push(data[i]);
+			}
+		});
+		Task = {
+			complete: array1,
+			uncomplete: array2,
+			all: data
+		}
+		sessionStorage.task = JSON.stringify(Task);
+		return Task;
+	}
+	/***
+	 **主体DOM监听
+	 *1.任务左划显示完成
+	 *2.任务右划显示完成
+	 *3.完成按钮监听
+	 ***/
+	var eventInit = function() {
+		$(".cont").on("swipeLeft", "._task a.c_0", function() {
+			$(this).parent().css({
+				"-webkit-transform": "translateX(-5em)"
+			}).attr('open', 'true');
+		}).on("swipeRight", "._task a.c_0", function(e) {
+			$(this).parent().css({
+				"-webkit-transform": "translateX(0)"
+			});
+		}).on("click", "._task span", function() {
+			var $_this = $(this);
+			var data = {
+				'req': "complete",
+				't_id': $(this).prev().attr("tid")
+			}
+			var succeed = function(data) {
+				$_this.parent().hide("1000");
+				tool.alerts("恭喜完成一个任务", 2000);
+				getTask();
+			}
+			tool.ajax(data, succeed);
+		});
+	}
+	var getTask =function() {
+			var _this = this;
+			if (sessionStorage.user) {
+				var user = JSON.parse(sessionStorage.user);
+				var data = {
+					req: "getTask",
+					uid: user.uid
+				}
+				var succeed = function(data) {
+					var Task = taskAnsy(data);
+					module.exports.switchTask(Task, 0);
+				}
+				tool.ajax(data, succeed);
+			}
+		}
 });

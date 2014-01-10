@@ -1,19 +1,21 @@
 define(function(require, exports, module) {
 	var Task = require('./task');
-	var $foot_tab = $('#f_nav');
-	var $m_dom = $(".cout"); // 主体dom
+	var SecondPage = require('./app');
+
+	var version="1.8.1";
 	var mainSection = $("#Content1");
+	var demoSection = $("#Content2");
 	module.exports = {
 		init: function() {
 			/**主体初始化**/
-			mainSection.css('-webkit-transform', 'translateX(100%)');
+			$("#Content2").css('-webkit-transform', 'translateX(100%)');
 			$('.__page__').css('-webkit-transition', 'all .3s ease-in-out');
 			/**mainpage 的工具栏**/
 			$('#J_toolbar').toolbar({});
 			/**
 			 * foot_tab切换监听
 			 **/
-			$foot_tab.navigator().on('select', function(el, i) {
+			$('#f_nav').navigator().on('select', function(el, i) {
 				Task.switchTask(JSON.parse(sessionStorage.task), i);
 			});
 			/**初始化结束**/
@@ -53,8 +55,7 @@ define(function(require, exports, module) {
 				$(".panel,#Content1").on('swipeLeft', function(event) {
 					_this.panel('close', 'push');
 				});
-
-				var resetHeight = function () {
+				var resetHeight = function() {
 					$('.panel').css('height', window.innerHeight).iScroll('refresh');
 				}
 				$(window).on('scrollStop ortchange resize', resetHeight);
@@ -65,6 +66,10 @@ define(function(require, exports, module) {
 				position: 'left'
 			});
 			/**初始化结束**/
+
+			//关于提示初始化
+			aboutInit();
+
 			event_bind();
 		}
 	}
@@ -79,38 +84,54 @@ define(function(require, exports, module) {
 			e.preventDefault();
 		});
 
-		/***
-		 **主体DOM监听
-		 *1.任务左划显示完成
-		 *2.任务右划显示完成
-		 *3.完成按钮监听
-		 *4.
-		 ***/
-		$(".cont").on("swipeLeft", "._task a.c_0", function() {
-			$(this).parent().css({
-				"-webkit-transform": "translateX(-5em)"
-			}).attr('open', 'true');
-		}).on("swipeRight", "._task a.c_0", function(e) {
-			$(this).parent().css({
-				"-webkit-transform": "translateX(0)"
-			});
-		}).on("click", "._task span", function() {
-			var $_this = $(this);
-			var data = {
-				'req': "complete",
-				't_id': $(this).prev().attr("tid")
-			}
-			var succeed = function(data) {
-				$_this.parent().hide("1000");
-				alerts("恭喜完成一个任务", 2000);
-				Task.getTask();
-			}
-			tool.ajax(data, succeed);
+		window.onhashchange = function(e) {
+			updatePage();
+		}
+	}
+	//渲染数据第二页面
+	var updateDemoSection = function(widget) {
+		$("#J_toolbar2").empty();
+		new gmu.Toolbar("#J_toolbar2", {
+			title: SecondPage[widget].title,
+			leftBtns: ['<a href="#" class="btn_1 return-back">返回</a>'],
+			rightBtns: [SecondPage[widget]['right-btn']]
 		});
-		//任务发布
-		$("#J_toolbar2").on('click', '.bt-ok', function(event) {
-			Task.taskPublish();
-			event.preventDefault();
+		if (SecondPage[widget]["templ"] == "function") {
+			eval(widget + ".init()");
+		} else {
+			eval(widget + ".init('" + SecondPage[widget]["templ"] + "')");
+		}
+	}
+	//更新页面动画
+	var updatePage = function() {
+		var widgetName = location.hash.replace('#', '');
+		if (widgetName === '' || !SecondPage[widgetName]) {
+			demoSection.css('-webkit-transform', 'translateX(100%)');
+			setTimeout(function() {
+				mainSection.css('-webkit-transform', 'translateX(0)');
+			}, 0);
+		} else {
+			mainSection.css('-webkit-transform', 'translateX(-100%)');
+			demoSection.show();
+			window.scrollTo(0, 0);
+			setTimeout(function() {
+				demoSection.css('-webkit-transform', 'translateX(0)');
+			}, 0);
+			updateDemoSection(widgetName);
+		}
+	}
+	//关于
+	aboutInit = function() {
+		var about = gmu.Dialog({
+			autoOpen: false,
+			closeBtn: true,
+			title: '关于',
+			content: '<div class="_about"><h1>特特区TODO</h1><p>版本号：' + version + '</p><p class="small">Copyright © 1998-2013 TETEQU.</p></div>'
+		});
+		$(".about").click(function(event) {
+			about.open();
+			$('.panel').panel('close', 'push');
+			return false;
 		});
 	}
 })
